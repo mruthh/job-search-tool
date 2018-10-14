@@ -26,8 +26,19 @@ function parseSnagCollection(html){
 
 function parseSnagJob(html){
   const $ = cheerio.load(html);
-  const title = $('h1').text();
-  console.log(title);
+  const companyName = $('dt:contains("Company")').next().text().trim();
+  const jobTitle = $('dt:contains("Job Title")').next().text().trim();
+  const jobType = $('dt:contains("Job Type")').next().text().trim();
+  const pay = $('dt:contains("Wages")').next().text().trim();
+  const location = $('dt:contains("Location")').next().text().trim();
+  const postedDate = $('.posted-date').text().trim();
+  //this one's more complicated - it might be a list. But currently find is not working. Ugh.
+  const industry = $('h3:contains("Job Industries")').find('a')
+
+  const parsed = {
+    companyName, jobTitle, jobType, pay, location, postedDate, industry
+  }
+  return parsed;
 }
 
 function makeUrl(uri){
@@ -35,3 +46,20 @@ function makeUrl(uri){
   const postingId = queryString.parse(query).postingid;
   return `https://www.snagajob.com/job-seeker/jobs/job-details.aspx?postingid=${postingId}`;
 }
+//CEF categories
+/*
+xFT/PT
+xTitle
+xCompany
+xLocation
+xIndustry 
+xSalary
+Requirements
+Deadline
+xDate Posted
+CEF connections
+
+--addl categories--
+posting url
+posting source
+*/
