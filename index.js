@@ -7,10 +7,10 @@ const queryString = require('querystring');
 const _ = require('underscore');
 
 rp(url2)
-.then(html => parseSnagCollection(html))
+.then(html => parseSnagHTML(html))
 .catch(e => console.error(e));
 
-function parseSnagCollection(html){
+function parseSnagHTML(html){
   const $ = cheerio.load(html);
   const jobs = $('article');
   console.log(`There are ${jobs.length} jobs listed`)
