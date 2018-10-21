@@ -27,9 +27,7 @@ function parseSnagHTML(html){
 
 function parseSnagJob(html){
   const $ = cheerio.load(html);
-  // const companyName = $('dt:contains("Company")').next().text().trim();
   const companyName = parseDt($, 'Company');
-  // const jobTitle = $('dt:contains("Job Title")').next().text().trim();
   const jobTitle = parseDt($, 'Job Title')
   const jobType = $('dt:contains("Job Type")').next().text().trim();
   const pay = $('dt:contains("Wages")').next().text().trim();
@@ -57,7 +55,10 @@ function parseIndustries($){
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
 }
-//CEF categories
+
+module.exports = { parseSnagHTML, parseSnagJob };
+
+//categories
 /*
 xFT/PT
 xTitle
@@ -68,7 +69,7 @@ xSalary
 Requirements
 Deadline
 xDate Posted
-CEF connections
+connections
 
 --addl categories--
 posting url
