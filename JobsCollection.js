@@ -16,9 +16,10 @@ const JobsCollection = Backbone.Collection.extend({
   parse: function(data){
 
   },
-  fetchSnag: function(){
+  fetchSnag: () => {
+    console.log('fetching');
     rp(url2)
-      .then(html => parseSnagHTML(html, collection))
+      .then(html => parseSnagHTML(html, this))
       .catch(e => console.error(e));
   },
   // parseSnagHTML: function(html){

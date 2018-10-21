@@ -10,7 +10,7 @@ rp(url2)
 .then(html => parseSnagHTML(html))
 .catch(e => console.error(e));
 
-function parseSnagHTML(html){
+function parseSnagHTML(html, collection){
   const $ = cheerio.load(html);
   const jobs = $('article');
   console.log(`There are ${jobs.length} jobs listed`)
@@ -18,14 +18,12 @@ function parseSnagHTML(html){
     if (i === 0) {
     const uri = $(job).find('.result-title a').attr('href');
     const jobUrl = makeUrl(uri);
-    rp(jobUrl)
-    .then(html => parseSnagJob(html))
-    .catch(e => console.log(e));
+    collection.set({jobUrl});
     }
   });
 }
 
-function parseSnagJob(html){
+function parseSnagJob(html, model){
   const $ = cheerio.load(html);
   const companyName = parseDt($, 'Company');
   const jobTitle = parseDt($, 'Job Title')
@@ -34,10 +32,9 @@ function parseSnagJob(html){
   const location = $('dt:contains("Location")').next().text().trim();
   const postedDate = $('.posted-date').text().trim();
   const industries = parseIndustries($);
-  const parsed = {
+  model.set({
     companyName, jobTitle, jobType, pay, location, postedDate, industries
-  }
-  return parsed;
+  });
 }
 
 function makeUrl(uri){
