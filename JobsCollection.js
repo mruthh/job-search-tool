@@ -13,12 +13,13 @@ const { parseSnagHTML } = require('./scraper');
 const JobsCollection = Backbone.Collection.extend({
   url: null,
   model: JobModel,
-  parse: function(data){
-
+  initialize: function(){
+    this.fetchSnag();
   },
   fetchSnag: () => {
     console.log('fetching');
-    rp(url2)
+    console.log(rp);
+    rp({uri: url2, mode: 'no-cors'})
       .then(html => parseSnagHTML(html, this))
       .catch(e => console.error(e));
   },

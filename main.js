@@ -6,5 +6,5 @@ Backbone.$ = $;
 const AppView = require('./AppView');
 const AppModel = require('./AppModel');
 
-const appModel = new AppModel();
+const appModel = new AppModel({});
 const appView = new AppView({ model: appModel });
