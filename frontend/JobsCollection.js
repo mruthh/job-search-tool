@@ -19,28 +19,10 @@ const JobsCollection = Backbone.Collection.extend({
   fetchSnag: () => {
     console.log('fetching');
     console.log(rp);
-    rp({uri: url2, mode: 'no-cors'})
+    rp(url2)
       .then(html => parseSnagHTML(html, this))
       .catch(e => console.error(e));
   },
-  // parseSnagHTML: function(html){
-  //   const $ = cheerio.load(html);
-  //   const jobs = $('article');
-  //   console.log(`There are ${jobs.length} jobs listed`)
-  //   jobs.each( (i, job) => {
-  //     if (i === 0) {
-  //     const uri = $(job).find('.result-title a').attr('href');
-  //     const jobUrl = this.makeUrlFromHref(uri);
-  //     this.set({jobUrl});
-  //     };
-  //   });
-    
-  // },
-  // makeUrlFromHref(uri){
-  //   const query = url.parse(uri).query;
-  //   const postingId = queryString.parse(query).postingid;
-  //   return `https://www.snagajob.com/job-seeker/jobs/job-details.aspx?postingid=${postingId}`;
-  // }
 });
 
 module.exports = JobsCollection;
