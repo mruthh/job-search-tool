@@ -10,7 +10,7 @@ const AppModel = Backbone.Model.extend({
 module.exports = AppModel;
 },{"backbone":56}],2:[function(require,module,exports){
 const Backbone = require('backbone');
-const JobsCollection = require('./frontend/JobsCollection');
+const JobsCollection = require('../frontend/JobsCollection');
 const $ = require('jquery');
 
 const AppView = Backbone.View.extend({
@@ -38,7 +38,7 @@ const cheerio = require('cheerio');
 const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
-const { parseSnagJob } = require('./frontend/scraper');
+const { parseSnagJob } = require('../frontend/scraper');
 
 const JobModel = Backbone.Model.extend({
   defaults: {
@@ -63,7 +63,7 @@ const JobModel = Backbone.Model.extend({
 module.exports = JobModel;
 },{"./scraper":475,"backbone":56,"cheerio":61,"querystring":624,"request-promise":420,"underscore":470,"url":658}],4:[function(require,module,exports){
 const Backbone = require('backbone');
-const JobModel = require('./frontend/JobModel');
+const JobModel = require('../frontend/JobModel');
 
 const rp = require('request-promise');
 const cheerio = require('cheerio');
@@ -72,7 +72,7 @@ const url2 = 'https://www.snagajob.com/job-search/s-north+carolina/l-chapel+hill
 const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
-const { parseSnagHTML } = require('./frontend/scraper');
+const { parseSnagHTML } = require('../frontend/scraper');
 
 const JobsCollection = Backbone.Collection.extend({
   url: null,
@@ -114,8 +114,8 @@ const _ = require('underscore');
 const Backbone = require('backbone');
 Backbone.$ = $;
 
-const AppView = require('./frontend/AppView');
-const AppModel = require('./frontend/AppModel');
+const AppView = require('../frontend/AppView');
+const AppModel = require('../frontend/AppModel');
 
 const appModel = new AppModel({});
 const appView = new AppView({ model: appModel });
@@ -6467,7 +6467,7 @@ function _setExports(ndebug) {
 
 module.exports = _setExports(process.env.NODE_NDEBUG);
 
-}).call(this,{"isBuffer":require("../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
+}).call(this,{"isBuffer":require("../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
 },{"../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":584,"_process":614,"assert":491,"stream":650,"util":662}],53:[function(require,module,exports){
 
 /*!
@@ -17159,7 +17159,7 @@ exports.update = function(arr, parent) {
 
 // module.exports = $.extend(exports);
 
-}).call(this,{"isBuffer":require("../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
 },{"../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":584,"htmlparser2":144,"parse5":391}],70:[function(require,module,exports){
 /**
  * Module dependencies
@@ -18038,7 +18038,7 @@ CombinedStream.prototype._emitError = function(err) {
   this.emit('error', err);
 };
 
-}).call(this,{"isBuffer":require("../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
 },{"../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":584,"./defer.js":75,"delayed-stream":85,"stream":650,"util":662}],75:[function(require,module,exports){
 (function (process,setImmediate){
 module.exports = defer;
@@ -18179,7 +18179,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-}).call(this,{"isBuffer":require("../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
 },{"../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":584}],77:[function(require,module,exports){
 "use strict";
 
@@ -22889,7 +22889,7 @@ function CollectingHandler(cbs){
 	this.events = [];
 }
 
-var EVENTS = require("./").EVENTS;
+var EVENTS = require("..").EVENTS;
 Object.keys(EVENTS).forEach(function(name){
 	if(EVENTS[name] === 0){
 		name = "on" + name;
@@ -22939,7 +22939,7 @@ CollectingHandler.prototype.restart = function(){
 };
 
 },{"./":144}],138:[function(require,module,exports){
-var index = require("./index.js"),
+var index = require("../index.js"),
     DomHandler = index.DomHandler,
     DomUtils = index.DomUtils;
 
@@ -23397,7 +23397,7 @@ function ProxyHandler(cbs){
 	this._cbs = cbs || {};
 }
 
-var EVENTS = require("./").EVENTS;
+var EVENTS = require("..").EVENTS;
 Object.keys(EVENTS).forEach(function(name){
 	if(EVENTS[name] === 0){
 		name = "on" + name;
@@ -23435,7 +23435,7 @@ function Cbs(scope){
 	this.scope = scope;
 }
 
-var EVENTS = require(".").EVENTS;
+var EVENTS = require("..").EVENTS;
 
 Object.keys(EVENTS).forEach(function(name){
 	if(EVENTS[name] === 0){
@@ -25210,7 +25210,7 @@ module.exports = {
 
 };
 
-}).call(this,{"isBuffer":require("../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
 },{"../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":584,"./utils":148,"assert-plus":52,"crypto":538,"http":651,"jsprim":158,"sshpk":454,"util":662}],148:[function(require,module,exports){
 // Copyright 2012 Joyent, Inc.  All rights reserved.
 
@@ -57911,7 +57911,7 @@ OpenElementStack.prototype.generateImpliedEndTagsWithExclusion = function (exclu
 
 var WritableStream = require('stream').Writable,
     inherits = require('util').inherits,
-    Parser = require('./index');
+    Parser = require('../index');
 
 var ParserStream = module.exports = function (options) {
     WritableStream.call(this);
@@ -58466,7 +58466,7 @@ Serializer.prototype._serializeDocumentTypeNode = function (node) {
 
 var ReadableStream = require('stream').Readable,
     inherits = require('util').inherits,
-    Serializer = require('./index');
+    Serializer = require('../index');
 
 var SerializerStream = module.exports = function (node, options) {
     ReadableStream.call(this);
@@ -62330,7 +62330,7 @@ module.exports = {
 },{}],417:[function(require,module,exports){
 'use strict';
 
-var core = require('.'),
+var core = require('..'),
     isArray = require('lodash/isArray'),
     isFunction = require('lodash/isFunction'),
     isObjectLike = require('lodash/isObjectLike');
@@ -71179,7 +71179,7 @@ Key._oldVersionDetect = function (obj) {
 	return ([1, 0]);
 };
 
-}).call(this,{"isBuffer":require("../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
 },{"../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":584,"./algs":436,"./dhe":438,"./ed-compat":439,"./errors":440,"./fingerprint":441,"./formats/auto":442,"./formats/dnssec":443,"./formats/pem":445,"./formats/pkcs1":446,"./formats/pkcs8":447,"./formats/rfc4253":448,"./formats/ssh":450,"./formats/ssh-private":449,"./private-key":456,"./signature":457,"./utils":459,"assert-plus":52,"crypto":538}],456:[function(require,module,exports){
 // Copyright 2017 Joyent, Inc.
 

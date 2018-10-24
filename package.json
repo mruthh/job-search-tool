@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mruthh/job-search-tool/issues"
   },
-  "homepage": "https://github.com/mruthh/job-search-tool#readme"
+  "homepage": "https://github.com/mruthh/job-search-tool#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
