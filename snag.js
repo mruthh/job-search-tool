@@ -60,4 +60,4 @@ function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
 }
 
-module.exports = { getJobs };
+module.exports = { getSnagJobs };

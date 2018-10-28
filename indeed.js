@@ -33,10 +33,10 @@ function parseIndeedJob(html, jobUrl){
   const companyName = $('.jobsearch-CompanyAvatar-companyLink').text().trim();
   const jobTitle = $('.jobsearch-JobInfoHeader').text().trim();
   const jobType = getType($);
-  const pay = $('dt:contains("Wages")').next().text().trim();
-  const location = $('dt:contains("Location")').next().text().trim();
-  const postedDate = $('.posted-date').text().trim();
-  const industries = parseIndustries($);
+  const pay = getPay($);
+  const location = getLocation($);
+  const postedDate = getPostedDate($);
+  const industries = getIndustries($);
   const parsed = {
     companyName, jobTitle, jobType, pay, location, postedDate, industries, jobUrl
   }
@@ -45,25 +45,37 @@ function parseIndeedJob(html, jobUrl){
 
 function makeUrl(uri){
   const query = url.parse(uri).query;
-  console.log(query)
   const postingId = queryString.parse(query).jk;
   return `https://www.indeed.com/viewjob?jk=${postingId}`;
 }
 
-function parseIndustries($){
-  const industries = $('#sajCpIndustries').find('li')
-    .map((i, li) => $(li).text()).toArray()
-  return _.uniq(industries).join(', ');
-}
-
-function parseDt($, label){
-  return $(`dt:contains("${label}")`).next().text().trim();
-}
 
 function getType($){
   //todo: write best-guess for full time or part time
   return 'Unknown';
 }
+
+function getPay($){
+  return 'Unknown;'
+}
+
+function getLocation($){
+  return 'Unknown;'
+}
+
+function getPostedDate($){
+  const footer = $('.jobsearch-JobMetadataFooter').text().split('-');
+  // const [num, units, ago] = footer[0].split(' ');
+  return footer[0];
+  //TODO: translate both indeed and snag dates into consistent format
+  
+}
+
+function getIndustries($){
+  return 'Unknown;'
+}
+
+
 getJobs();
 
-module.exports = { getJobs };
+module.exports = { getIndeedJobs };
