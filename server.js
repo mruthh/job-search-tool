@@ -9,7 +9,7 @@ app.get('/jobs/indeed', (req, res) => {
     res.json(parsed);
   });
 });
-app.get('./jobs/snag', (req, res) => {
+app.get('/jobs/snag', (req, res) => {
   getSnagJobs().then( (parsed) => {
     console.log(parsed);
     res.json(parsed);

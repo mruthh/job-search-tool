@@ -30,8 +30,8 @@ function parseIndeedHTML(html){
 
 function parseIndeedJob(html, jobUrl){
   const $ = cheerio.load(html);
-  const companyName = $('.jobsearch-CompanyAvatar-companyLink').text().trim();
-  const jobTitle = $('.jobsearch-JobInfoHeader').text().trim();
+  const companyName = $('.jobsearch-CompanyAvatar-companyLink').text();
+  const jobTitle = $('h3').text().trim();
   const jobType = getType($);
   const pay = getPay($);
   const location = getLocation($);
@@ -64,9 +64,13 @@ function getLocation($){
 }
 
 function getPostedDate($){
-  const footer = $('.jobsearch-JobMetadataFooter').text().split('-');
+  const footer = $('.jobsearch-JobMetadataFooter').text().split(' ');
   // const [num, units, ago] = footer[0].split(' ');
-  return footer[0];
+  // posting date is expressed as x hours ago or x days ago. 
+  // Find 'ago' and work backwards
+  const agoIndex = footer.indexOf('ago');
+  const [num, units, ago] = footer.slice(agoIndex - 2, agoIndex + 1);
+  return `${num} ${units} ${ago}`;
   //TODO: translate both indeed and snag dates into consistent format
   
 }
