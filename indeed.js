@@ -5,7 +5,7 @@ const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
 
-function getJobs() {
+function getIndeedJobs() {
   return rp(url2)
   .then(html => parseIndeedHTML(html))
   .catch(e => console.error(e));
@@ -74,8 +74,5 @@ function getPostedDate($){
 function getIndustries($){
   return 'Unknown;'
 }
-
-
-getJobs();
 
 module.exports = { getIndeedJobs };

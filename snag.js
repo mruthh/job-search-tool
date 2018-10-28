@@ -5,7 +5,7 @@ const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
 
-function getJobs() {
+function getSnagJobs() {
   return rp(url2)
   .then(html => parseSnagHTML(html))
   .catch(e => console.error(e));
