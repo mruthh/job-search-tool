@@ -1,39 +1,38 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
-const url2 = 'https://www.snagajob.com/job-search/s-north+carolina/l-chapel+hill/w-27514?radius=0';
+const url2 = 'https://www.indeed.com/jobs?l=Chapel+Hill,+NC&radius=0&explvl=entry_level&sort=date';
 const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
 
 function getJobs() {
   return rp(url2)
-  .then(html => parseSnagHTML(html))
+  .then(html => parseIndeedHTML(html))
   .catch(e => console.error(e));
 }
 
 
-function parseSnagHTML(html){
+function parseIndeedHTML(html){
   const $ = cheerio.load(html);
-  const jobs = $('article');
+  const jobs = $('[data-tn-component="organicJob"]');
   console.log(`There are ${jobs.length} jobs listed`)
   const parsedJobs = [];
   jobs.each( (i, job) => {
-      const uri = $(job).find('.result-title a').attr('href');
+      const uri = $(job).find('a').attr('href');
       const jobUrl = makeUrl(uri);
       const promise = rp(jobUrl)
-        .then(html => parseSnagJob(html, jobUrl))
+        .then(html => parseIndeedJob(html, jobUrl))
         .catch(e => console.log(e));
       parsedJobs.push(promise);
   });
   return Promise.all(parsedJobs);
 }
 
-function parseSnagJob(html, jobUrl){
-  console.log('parsing a job')
+function parseIndeedJob(html, jobUrl){
   const $ = cheerio.load(html);
-  const companyName = parseDt($, 'Company');
-  const jobTitle = parseDt($, 'Job Title')
-  const jobType = $('dt:contains("Job Type")').next().text().trim();
+  const companyName = $('.jobsearch-CompanyAvatar-companyLink').text().trim();
+  const jobTitle = $('.jobsearch-JobInfoHeader').text().trim();
+  const jobType = getType($);
   const pay = $('dt:contains("Wages")').next().text().trim();
   const location = $('dt:contains("Location")').next().text().trim();
   const postedDate = $('.posted-date').text().trim();
@@ -46,8 +45,9 @@ function parseSnagJob(html, jobUrl){
 
 function makeUrl(uri){
   const query = url.parse(uri).query;
-  const postingId = queryString.parse(query).postingid;
-  return `https://www.snagajob.com/job-seeker/jobs/job-details.aspx?postingid=${postingId}`;
+  console.log(query)
+  const postingId = queryString.parse(query).jk;
+  return `https://www.indeed.com/viewjob?jk=${postingId}`;
 }
 
 function parseIndustries($){
@@ -59,5 +59,11 @@ function parseIndustries($){
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
 }
+
+function getType($){
+  //todo: write best-guess for full time or part time
+  return 'Unknown';
+}
+getJobs();
 
 module.exports = { getJobs };
