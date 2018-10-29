@@ -30,7 +30,7 @@ function parseIndeedHTML(html){
 
 function parseIndeedJob(html, jobUrl){
   const $ = cheerio.load(html);
-  const companyName = $('.jobsearch-CompanyAvatar-companyLink').text();
+  const companyName = getCompanyName($);
   const jobTitle = $('h3').text().trim();
   const jobType = getType($);
   const pay = getPay($);
@@ -49,6 +49,10 @@ function makeUrl(uri){
   return `https://www.indeed.com/viewjob?jk=${postingId}`;
 }
 
+function getCompanyName($){
+  const footer = $('.jobsearch-JobMetadataFooter').text().split('-');
+  return footer[0];
+}
 
 function getType($){
   //todo: write best-guess for full time or part time
@@ -65,7 +69,6 @@ function getLocation($){
 
 function getPostedDate($){
   const footer = $('.jobsearch-JobMetadataFooter').text().split(' ');
-  // const [num, units, ago] = footer[0].split(' ');
   // posting date is expressed as x hours ago or x days ago. 
   // Find 'ago' and work backwards
   const agoIndex = footer.indexOf('ago');
