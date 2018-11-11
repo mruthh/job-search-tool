@@ -5,6 +5,11 @@ const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
 
+/*
+ * Relevant params: 
+  sort=date 
+ */
+
 function getSnagJobs() {
   return rp(url2)
   .then(html => parseSnagHTML(html))

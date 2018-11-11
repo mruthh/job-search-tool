@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
+// import './App.css';
 import JobList from './JobList';
 import request from 'request';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const baseUrl = 'http://localhost:8001'
 
@@ -18,6 +19,9 @@ class App extends Component {
     request(`${baseUrl}/api/jobs/snag`, (err, res, body) => {
       this.setState({ jobs: JSON.parse(body) });
     });
+  }
+  componentDidMount(){
+    this.fetchJobs();
   }
 
   render() {

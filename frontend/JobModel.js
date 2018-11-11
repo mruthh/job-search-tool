@@ -14,6 +14,9 @@ const JobModel = Backbone.Model.extend({
     industries: '',
     jobUrl: ''
   },
+  initialize: function(){
+    console.log('initializing job');
+  }
 
 });
 
