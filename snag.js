@@ -7,12 +7,26 @@ const _ = require('underscore');
 
 /*
  * Relevant params: 
-  sort=date 
+  sort=date
+  to get a page, just page-[1-based pageNum] 
  */
 
-function getSnagJobs() {
-  return rp(url2)
-  .then(html => parseSnagHTML(html))
+function getSnagJobs(maxResults) {
+  //jobs come in sets of 15, minus ads. translate results to number of pages
+
+  const numPages = Math.ceil(maxResults/15);
+
+  const requests = [];
+  for (let i = 0; i < numPages; i++) {
+    const baseUrl = url2;
+    //to get a page, add page-[1-based pageNum] to url
+    const page = `&page=${i + 1}`
+    const request = rp(`${baseUrl}${page}`)
+    .then(html => parseSnagHTML(html))
+    requests.push(request);
+  }
+
+  return Promise.all(requests)
   .catch(e => console.error(e));
 }
 
@@ -65,4 +79,4 @@ function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
 }
 
-module.exports = { getSnagJobs };
+module.exports = { getSnagJobs, parseSnagHTML };

@@ -82,4 +82,4 @@ function getIndustries($){
   return 'Unknown;'
 }
 
-module.exports = { getIndeedJobs };
+module.exports = { getIndeedJobs, parseIndeedHTML };
