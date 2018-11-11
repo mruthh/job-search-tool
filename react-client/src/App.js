@@ -15,8 +15,8 @@ class App extends Component {
     this.fetchJobs = this.fetchJobs.bind(this);
   }
   fetchJobs() {
-    console.log(`fetching from ${baseUrl}/api/jobs/snag`);
-    request(`${baseUrl}/api/jobs/snag`, (err, res, body) => {
+    console.log(`fetching from ${baseUrl}/api/jobs`);
+    request(`${baseUrl}/api/jobs`, (err, res, body) => {
       this.setState({ jobs: JSON.parse(body) });
     });
   }

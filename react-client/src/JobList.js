@@ -17,7 +17,7 @@ const JobList = (props) => {
   });
 
   const renderEmptyView = () => {
-    return <p>No jobs yet!</p>
+    return <tr><td colSpan={7}>No jobs yet!</td></tr>
   }
   return (
     <div className={"table-responsive"}>
