@@ -10,7 +10,7 @@ const _ = require('underscore');
 const queryString = require('querystring');
 
 //REMOVE THIS IN PRODUCTION
-app.use(cors());
+// app.use(cors());
 
 const defaultParams = {
   maxResults: 10
@@ -43,5 +43,5 @@ app.get('/api/jobs', (req, res) => {
   });
 });
 
-app.use(express.static('public'));
+app.use(express.static('./react-client/build'));
 app.listen(process.env.PORT || 8001);

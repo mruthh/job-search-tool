@@ -46,7 +46,7 @@ function parseIndeedJob(html, jobUrl){
 function makeUrl(uri){
   const query = url.parse(uri).query;
   const postingId = queryString.parse(query).jk;
-  return `https://www.indeed.com/viewjob?jk=${postingId}`;
+  return postingId ? `https://www.indeed.com/viewjob?jk=${postingId}` : null;
 }
 
 function getCompanyName($){

@@ -4,6 +4,7 @@ const url2 = 'https://www.snagajob.com/job-search/s-north+carolina/l-chapel+hill
 const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
+const moment = require('moment');
 
 /*
  * Relevant params: 
@@ -55,7 +56,7 @@ function parseSnagJob(html, jobUrl){
   const jobType = $('dt:contains("Job Type")').next().text().trim();
   const pay = $('dt:contains("Wages")').next().text().trim();
   const location = $('dt:contains("Location")').next().text().trim();
-  const postedDate = $('.posted-date').text().trim();
+  const postedDate = parsePostedDate($);
   const industries = parseIndustries($);
   const parsed = {
     companyName, jobTitle, jobType, pay, location, postedDate, industries, jobUrl
@@ -75,6 +76,11 @@ function parseIndustries($){
   return _.uniq(industries).join(', ');
 }
 
+function parsePostedDate($){
+  const dateString = $('.posted-date').text().trim().replace('Posted: ', '');
+  const date = moment(dateString);
+  return date.format('MMM D, YYYY');
+}
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
 }
