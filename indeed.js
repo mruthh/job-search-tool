@@ -4,6 +4,7 @@ const url2 = 'https://www.indeed.com/jobs?l=Chapel+Hill,+NC&radius=0&explvl=entr
 const url = require('url');
 const queryString = require('querystring');
 const _ = require('underscore');
+const moment = require('moment');
 
 function getIndeedJobs() {
   return rp(url2)
@@ -73,9 +74,13 @@ function getPostedDate($){
   // Find 'ago' and work backwards
   const agoIndex = footer.indexOf('ago');
   const [num, units, ago] = footer.slice(agoIndex - 2, agoIndex + 1);
-  return `${num} ${units} ${ago}`;
-  //TODO: translate both indeed and snag dates into consistent format
-  
+  const agoString = `${num} ${units} ${ago}`;
+  //we're translating to a day.
+  //if units are hours, use today's date
+  let date = moment();
+  //if units are days months, moment subtract num units
+  if (units !== 'hours') date = moment().subtract(parseInt(num), units);
+  return date.format('MMM D, YYYY');
 }
 
 function getIndustries($){

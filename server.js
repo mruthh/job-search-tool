@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
 const { getSnagJobs } = require('./snag');
 const { getIndeedJobs } = require('./indeed');
 const { getJobs } = require('./all-jobs');
@@ -9,8 +8,6 @@ const sampleJobs = require('./sample-jobs.json');
 const _ = require('underscore');
 const queryString = require('querystring');
 
-//REMOVE THIS IN PRODUCTION
-// app.use(cors());
 
 const defaultParams = {
   maxResults: 10
@@ -30,7 +27,6 @@ app.get('/api/jobs/snag', (req, res) => {
     console.log(flattened.length);
     res.json(flattened);
   });
-  // res.json(sampleJobs);
 });
 
 app.get('/api/jobs', (req, res) => {
