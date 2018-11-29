@@ -4,7 +4,7 @@ import JobList from './JobList';
 import request from 'request';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const baseUrl = 'http://localhost:8001'
+const baseUrl = process.env.PORT || 'http://localhost:8001';
 
 class App extends Component {
   constructor(props) {
