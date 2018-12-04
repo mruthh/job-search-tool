@@ -21,10 +21,12 @@ function parseIndeedHTML(html){
   jobs.each( (i, job) => {
       const uri = $(job).find('a').attr('href');
       const jobUrl = makeUrl(uri);
-      const promise = rp(jobUrl)
-        .then(html => parseIndeedJob(html, jobUrl))
-        .catch(e => console.log(e));
-      parsedJobs.push(promise);
+      if (makeUrl(uri)) {
+        const promise = rp(jobUrl)
+          .then(html => parseIndeedJob(html, jobUrl))
+          .catch(e => console.log(e));
+        parsedJobs.push(promise);
+      }
   });
   return Promise.all(parsedJobs);
 }

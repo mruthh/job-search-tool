@@ -12,10 +12,10 @@ const moment = require('moment');
   to get a page, just page-[1-based pageNum] 
  */
 
-function getSnagJobs(maxResults) {
+function getSnagJobs(numResults) {
   //jobs come in sets of 15, minus ads. translate results to number of pages
 
-  const numPages = Math.ceil(maxResults/15);
+  const numPages = Math.ceil(numResults/15);
 
   const requests = [];
   for (let i = 0; i < numPages; i++) {

@@ -18,15 +18,17 @@ const { parseIndeedHTML } = require('./indeed');
 function getJobs(params) {
   //jobs come in sets of 15, minus ads. translate results to number of pages
   
-  const numPages = {
-    snag: Math.ceil(params.maxResults/15),
-    indeed: Math.ceil(params.maxResults/10)
-  };
+  //snag pages have 15 results, indeed pages have 10
+  //for each 25 results, add one page of each
+  const numPages = Math.ceil(params.numResults/25);
+
+  const startIndex = params.startIndex;
+
   const requests = [];
 
   //fetch from snagajob
   if (!params.excludeSnag) {
-    for (let i = 0; i < numPages.snag; i++) {
+    for (let i = startIndex; i < numPages; i++) {
       const baseUrl = snagUrl;
       //to get a page, add page-[1-based pageNum] to url
       const page = `&page=${i + 1}`
@@ -37,7 +39,7 @@ function getJobs(params) {
   }
   //fetch from indeed
   if (!params.excludeIndeed){
-    for (let i = 0; i < numPages.indeed; i++) {
+    for (let i = startIndex; i < numPages; i++) {
       const baseUrl = indeedUrl;
       //to get a page, add start index to url
       const start = `&start=${i * 10}`

@@ -7,11 +7,14 @@ const fs = require('fs');
 const sampleJobs = require('./sample-jobs.json');
 const _ = require('underscore');
 const queryString = require('querystring');
-
+const cors = require('cors');
 
 const defaultParams = {
-  maxResults: 10
+  numResults: 25,
+  startIndex: 0,
 };
+
+app.use(cors());
 
 app.get('/api/jobs/indeed', (req, res) => {
   getIndeedJobs().then( (parsed) => {
@@ -21,7 +24,8 @@ app.get('/api/jobs/indeed', (req, res) => {
 });
 app.get('/api/jobs/snag', (req, res) => {
   console.log(req);
-  let numJobs = req.query.numJobs ? req.query.numJobs : 15;
+  let numResults = req.body.numResults ? req.body.numResults : 15;
+  let startIndex = req.body.startIndex ? req.body.startIndex : 0;
   getSnagJobs(numJobs).then( (parsed) => {
     const flattened = _.flatten(parsed);
     console.log(flattened.length);
@@ -33,9 +37,13 @@ app.get('/api/jobs', (req, res) => {
 
   const params = {...defaultParams, ...req.params};
   getJobs(params).then((jobs) => {
+    //flatten results into single-level array
     const flattened = _.flatten(jobs);
+    //keep only unique results
+    const uniq = _.uniq(flattened, false, (result) => {return result.jobUrl});
     console.log(flattened.length);
-    res.json(flattened);
+    console.log(uniq.length);
+    res.json(uniq);
   });
 });
 
