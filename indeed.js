@@ -63,11 +63,11 @@ function getType($){
 }
 
 function getPay($){
-  return 'Unknown;'
+  return 'Unknown'
 }
 
 function getLocation($){
-  return 'Unknown;'
+  return 'Unknown'
 }
 
 function getPostedDate($){
@@ -82,7 +82,7 @@ function getPostedDate($){
   let date = moment();
   //if units are days months, moment subtract num units
   if (units !== 'hours') date = moment().subtract(parseInt(num), units);
-  return date.format('MMM D, YYYY');
+  return date.format('MM-DD-YYYY');
 }
 
 function getIndustries($){

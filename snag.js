@@ -6,32 +6,6 @@ const queryString = require('querystring');
 const _ = require('underscore');
 const moment = require('moment');
 
-/*
- * Relevant params: 
-  sort=date
-  to get a page, just page-[1-based pageNum] 
- */
-
-// function getSnagJobs(numResults) {
-//   //jobs come in sets of 15, minus ads. translate results to number of pages
-
-//   const numPages = Math.ceil(numResults/15);
-
-//   const requests = [];
-//   for (let i = 0; i < numPages; i++) {
-//     const baseUrl = url2;
-//     //to get a page, add page-[1-based pageNum] to url
-//     const page = `&page=${i + 1}`
-//     const request = rp(`${baseUrl}${page}`)
-//     .then(html => parseSnagHTML(html))
-//     requests.push(request);
-//   }
-
-//   return Promise.all(requests)
-//   .catch(e => console.error(e));
-// }
-
-
 function parseSnagHTML(html){
   const $ = cheerio.load(html);
   const jobs = $('article');
@@ -55,7 +29,7 @@ function parseSnagJob(html, jobUrl){
   const jobTitle = parseDt($, 'Job Title')
   const jobType = $('dt:contains("Job Type")').next().text().trim();
   const pay = $('dt:contains("Wages")').next().text().trim();
-  const location = $('dt:contains("Location")').next().text().trim();
+  const location = parseLocation($);
   const postedDate = parsePostedDate($);
   const industries = parseIndustries($);
   const parsed = {
@@ -79,10 +53,18 @@ function parseIndustries($){
 function parsePostedDate($){
   const dateString = $('.posted-date').text().trim().replace('Posted: ', '');
   const date = moment(dateString);
-  return date.format('MMM D, YYYY');
+  return date.format('MM-DD-YYYY');
 }
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
+}
+
+function parseLocation($){
+  const rawLocation = $('dt:contains("Location")').next().html().split('<br>');
+  //cheerio will ignore <br> tags. manually replace them with newlines
+  return rawLocation.map( (ln) => {
+    return cheerio.load(ln).text();
+  }).join('\n');
 }
 
 module.exports = { parseSnagHTML };

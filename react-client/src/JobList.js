@@ -1,12 +1,19 @@
 import React from 'react';
+import JobAttribute from './JobAttribute';
 
 const JobList = (props) => {
 
-  const jobItems = props.jobs.map(job => {
+  const jobItems = props.jobs.map( (job, index) => {
     return (
-        <tr key={job.jobUrl}>
+        <tr key={index}>
           <td><a href={job.jobUrl}>{job.jobTitle}</a></td>
-          <td>{job.companyName}</td>
+          <JobAttribute
+            jobAttr={job.companyName}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {companyName: value})}}
+          >
+            
+          </JobAttribute>
           <td>{job.jobType}</td>
           <td>{job.location}</td>
           <td>{job.postedDate}</td>

@@ -12,7 +12,7 @@ const PageNav = (props) => {
       <div className="col-md-12 text-center m-3">
         <button 
           className="btn" 
-          disabled={props.startIndex == 0}
+          disabled={props.startIndex === 0}
           onClick={() => {props.handlePageNavigation(false)}}
           > Prev </button>
         <span className="m-2">Viewing results {startNum} - {endNum}</span>
