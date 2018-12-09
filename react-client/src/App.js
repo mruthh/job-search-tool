@@ -64,13 +64,9 @@ class App extends Component {
     } 
     //update value of key
     const updatedJob = {...jobToEdit, ...keyValPair};
-    console.log(jobToEdit.jobUrl, jobToEdit.companyName);
-    console.log(updatedJob.jobUrl, updatedJob.companyName);
     const updatedJobs = this.state.jobs.map( (job) => {
-      return job.joburl === jobToEdit.jobUrl ? updatedJob : job;
+      return job.jobUrl === jobToEdit.jobUrl ? updatedJob : job;
     });
-    console.log(`There were ${this.state.jobs.length} jobs`);
-    console.log(`Now there are ${updatedJobs.length} jobs`)
     this.setState({jobs: updatedJobs});
   }
   handlePageNavigation(isForward) {

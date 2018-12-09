@@ -5,7 +5,7 @@ class JobAttribute extends Component {
     super(props);
     this.state = {
       editing: false,
-      text: props.jobAttr
+      text: props.jobAttr,
     }
     this.onEditStart = this.onEditStart.bind(this);
     this.handleInput = this.handleInput.bind(this);
