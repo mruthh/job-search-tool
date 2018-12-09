@@ -7,7 +7,7 @@ const queryString = require('querystring');
 const _ = require('underscore');
 const { parseSnagHTML } = require('./snag');
 const { parseIndeedHTML } = require('./indeed');
-
+const logger = require('./logger');
 
 /*
  * Relevant params: 
@@ -15,40 +15,45 @@ const { parseIndeedHTML } = require('./indeed');
   to get a page, just page-[1-based pageNum] 
  */
 
-function getJobs(params) {
-  //jobs come in sets of 15, minus ads. translate results to number of pages
-  
-  //snag pages have 15 results, indeed pages have 10
-  //for each 25 results, add one page of each
-  const numPages = Math.ceil(params.numResults/25);
-
-  const startIndex = params.startIndex;
-
+//helper function. makes requests for each job site
+function makeRequests(site, startNum, numPages){
   const requests = [];
-
-  //fetch from snagajob
-  if (!params.excludeSnag) {
-    for (let i = startIndex; i < numPages; i++) {
-      const baseUrl = snagUrl;
-      //to get a page, add page-[1-based pageNum] to url
-      const page = `&page=${i + 1}`
-      const request = rp(`${baseUrl}${page}`)
-      .then(html => parseSnagHTML(html))
-      requests.push(request);
-    }
+  for (let i = 0; i < numPages; i++) {
+    const request = rp({
+      url: site.baseUrl,
+      qs: { start: (startNum + i) * site.multiplier }
+    })
+    .then(html => site.pageParser(html))
+    requests.push(request);
   }
-  //fetch from indeed
-  if (!params.excludeIndeed){
-    for (let i = startIndex; i < numPages; i++) {
-      const baseUrl = indeedUrl;
-      //to get a page, add start index to url
-      const start = `&start=${i * 10}`
-      const request = rp(`${baseUrl}${start}`)
-      .then(html => parseIndeedHTML(html))
-      requests.push(request);
-    }
-  }
+  return requests;
+}
 
+
+function getJobs(params) {
+  
+  const indeed = {
+    multiplier: 10,
+    baseUrl: indeedUrl,
+    pageParser: parseIndeedHTML,
+  };
+  
+  const snag = {
+    multiplier: 15,
+    baseUrl: snagUrl,
+    pageParser: parseSnagHTML,
+  };
+
+  //for each 25 results, add one page of results from each site
+  const numPages = Math.ceil(params.numResults/25);
+  
+  //every time the req start index goes up by 25, the starting page should go up by 1
+  const startNum = Math.ceil(params.startIndex/25);
+
+  const snagRequests = makeRequests(snag, startNum, numPages);
+  const indeedRequests = makeRequests(indeed, startNum, numPages);
+
+  const requests = [...snagRequests, ...indeedRequests];
   return Promise.all(requests)
   .catch(e => console.error(e));
 }

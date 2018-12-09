@@ -6,7 +6,7 @@ const OptionsBar = (props) => {
     <div className="row">
       <div className="col-md-12">
         <p>
-          Fetch newest  
+          Fetch
           <select className="m-1"
             value={props.numResults}
             onChange={props.onNumResultsChange}>
@@ -15,7 +15,7 @@ const OptionsBar = (props) => {
             <option value="75">75</option>
             <option value="100">100</option>
           </select>
-           results
+           results at a time
         </p>
       </div>
     </div>

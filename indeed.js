@@ -6,11 +6,11 @@ const queryString = require('querystring');
 const _ = require('underscore');
 const moment = require('moment');
 
-function getIndeedJobs() {
-  return rp(url2)
-  .then(html => parseIndeedHTML(html))
-  .catch(e => console.error(e));
-}
+// function getIndeedJobs() {
+//   return rp(url2)
+//   .then(html => parseIndeedHTML(html))
+//   .catch(e => console.error(e));
+// }
 
 
 function parseIndeedHTML(html){
@@ -89,4 +89,4 @@ function getIndustries($){
   return 'Unknown;'
 }
 
-module.exports = { getIndeedJobs, parseIndeedHTML };
+module.exports = { parseIndeedHTML };

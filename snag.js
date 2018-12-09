@@ -12,24 +12,24 @@ const moment = require('moment');
   to get a page, just page-[1-based pageNum] 
  */
 
-function getSnagJobs(numResults) {
-  //jobs come in sets of 15, minus ads. translate results to number of pages
+// function getSnagJobs(numResults) {
+//   //jobs come in sets of 15, minus ads. translate results to number of pages
 
-  const numPages = Math.ceil(numResults/15);
+//   const numPages = Math.ceil(numResults/15);
 
-  const requests = [];
-  for (let i = 0; i < numPages; i++) {
-    const baseUrl = url2;
-    //to get a page, add page-[1-based pageNum] to url
-    const page = `&page=${i + 1}`
-    const request = rp(`${baseUrl}${page}`)
-    .then(html => parseSnagHTML(html))
-    requests.push(request);
-  }
+//   const requests = [];
+//   for (let i = 0; i < numPages; i++) {
+//     const baseUrl = url2;
+//     //to get a page, add page-[1-based pageNum] to url
+//     const page = `&page=${i + 1}`
+//     const request = rp(`${baseUrl}${page}`)
+//     .then(html => parseSnagHTML(html))
+//     requests.push(request);
+//   }
 
-  return Promise.all(requests)
-  .catch(e => console.error(e));
-}
+//   return Promise.all(requests)
+//   .catch(e => console.error(e));
+// }
 
 
 function parseSnagHTML(html){
@@ -85,4 +85,4 @@ function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
 }
 
-module.exports = { getSnagJobs, parseSnagHTML };
+module.exports = { parseSnagHTML };
