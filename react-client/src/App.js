@@ -3,7 +3,9 @@ import JobList from './JobList';
 import OptionsBar from './OptionsBar';
 import PageNav from './PageNav';
 import request from 'request';
+import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.css';
 
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : '';
 
@@ -37,17 +39,23 @@ class App extends Component {
       this.setState({ loading: false });
       if (err) console.error(err);
       if (!body || body.length === 0) {
-
-      } else {
-        try {
-          this.setState({ jobs: body });
-        } catch (e) {
-          console.error(e);
-        }
+        console.error('No jobs turned from server');
+        return;
       }
+      const jobs = body.map(job => this.parseJob(job));
+      this.setState({ jobs });
+
     });
   }
-  handleEditJob(jobUrl, keyValPair){
+
+  parseJob(job) {
+    const formatted = { ...job };
+    if (job.postedDate) {
+      formatted.postedDate = moment(job.postedDate).format('DD-MM-YYYY');
+    }
+    return formatted;
+  }
+  handleEditJob(jobUrl, keyValPair) {
     //takes a jobId and a keyvalpair (e.g. {companyName: 'Harris Teeter'})
     //updates the job with the given id to have the value from the keyvalpair
     const jobToEdit = this.state.jobs.find(job => job.jobUrl = jobUrl);
@@ -58,16 +66,16 @@ class App extends Component {
     //get key from keyvalpair
     const key = Object.keys(keyValPair)[0];
     //make sure key exists
-    if (!(jobToEdit.hasOwnProperty(key))){
+    if (!(jobToEdit.hasOwnProperty(key))) {
       console.error(`Unable to update job. Key ${key} not found`);
       return;
-    } 
+    }
     //update value of key
-    const updatedJob = {...jobToEdit, ...keyValPair};
-    const updatedJobs = this.state.jobs.map( (job) => {
+    const updatedJob = { ...jobToEdit, ...keyValPair };
+    const updatedJobs = this.state.jobs.map((job) => {
       return job.jobUrl === jobToEdit.jobUrl ? updatedJob : job;
     });
-    this.setState({jobs: updatedJobs});
+    this.setState({ jobs: updatedJobs });
   }
   handlePageNavigation(isForward) {
     //if we are moving forward, new start index is start index + numResults
@@ -99,18 +107,15 @@ class App extends Component {
       <div key="header">
         <div className="App">
           <header className="App-header">
-            <p>
-              Let's search some jobs, ok?
-          </p>
-            <p>
-              <button onClick={this.fetchJobs}>Snag 'em</button>
-            </p>
+            <img src={require('./assets/cef-logo.png')} />
+            <h3>Job Search Tool</h3>
           </header>
         </div>
         <div>
           <OptionsBar
             numResults={this.state.numResults}
             onNumResultsChange={this.onNumResultsChange}
+            fetchJobs={this.fetchJobs}
           />
         </div>
       </div>
@@ -137,10 +142,10 @@ class App extends Component {
           />
         </div>
         <div>
-          <JobList 
-            jobs={this.state.jobs} 
+          <JobList
+            jobs={this.state.jobs}
             handleEditJob={this.handleEditJob}
-            />
+          />
         </div>
       </div>);
 

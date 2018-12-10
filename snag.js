@@ -32,8 +32,10 @@ function parseSnagJob(html, jobUrl){
   const location = parseLocation($);
   const postedDate = parsePostedDate($);
   const industries = parseIndustries($);
+  const requirements = '';
+  const cefConnections = '';
   const parsed = {
-    companyName, jobTitle, jobType, pay, location, postedDate, industries, jobUrl
+    companyName, jobTitle, jobType, pay, location, postedDate, industries, jobUrl, requirements, cefConnections
   }
   return parsed;
 }
@@ -53,7 +55,7 @@ function parseIndustries($){
 function parsePostedDate($){
   const dateString = $('.posted-date').text().trim().replace('Posted: ', '');
   const date = moment(dateString);
-  return date.format('MM-DD-YYYY');
+  return date.format('x');
 }
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();

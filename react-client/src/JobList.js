@@ -11,14 +11,43 @@ const JobList = (props) => {
             jobAttr={job.companyName}
             handleEditJob={(value) => 
               {props.handleEditJob(job.jobUrl, {companyName: value})}}
-          >
+          />
             
-          </JobAttribute>
-          <td>{job.jobType}</td>
-          <td>{job.location}</td>
-          <td>{job.postedDate}</td>
-          <td>{job.industries}</td>
-          <td>{job.pay}</td>
+          <JobAttribute
+            jobAttr={job.jobType}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {jobType: value})}}
+          />
+          <JobAttribute
+            jobAttr={job.pay}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {pay: value})}}
+          />
+          <JobAttribute
+            jobAttr={job.location}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {location: value})}}
+          />
+          <JobAttribute
+            jobAttr={job.postedDate}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {postedDate: value})}}
+          />
+          <JobAttribute
+            jobAttr={job.industries}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {industries: value})}}
+          />
+          <JobAttribute
+            jobAttr={job.requirements}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {requirements: value})}}
+          />
+          <JobAttribute
+            jobAttr={job.cefConnections}
+            handleEditJob={(value) => 
+              {props.handleEditJob(job.jobUrl, {cefConnections: value})}}
+          />
         </tr>
     );
   });
@@ -34,10 +63,12 @@ const JobList = (props) => {
             <th>Title</th>
             <th>Company</th>
             <th>Job Type (FT/PT)</th>
+            <th>Pay</th>
             <th>Location</th>
             <th>Date Posted</th>
             <th>Industries</th>
-            <th>Pay</th>
+            <th>Requirements</th>
+            <th>CEF Connections</th>
           </tr>
           </thead>
         <tbody>

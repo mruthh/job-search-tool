@@ -36,17 +36,16 @@ class JobAttribute extends Component {
       return (
         <td>
           <textarea
+            className="w-100"
             ref={this.textarea}
             value={this.state.text}
             onChange={this.handleInput}
-            tabIndex={0}
           >
           </textarea>
-          
+         <p> 
           <button
             className="btn btn-sm btn-default"
             onClick={this.onCancelEdit}
-            tabIndex={1}
           >
             Cancel
           </button>
@@ -56,10 +55,10 @@ class JobAttribute extends Component {
               this.handleEditJob(this.state.text);
               this.setState({editing: false})
             }}
-            tabIndex={2}
           >
             Update
           </button>
+          </p>
           
 
         </td>

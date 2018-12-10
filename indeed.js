@@ -40,8 +40,10 @@ function parseIndeedJob(html, jobUrl){
   const location = getLocation($);
   const postedDate = getPostedDate($);
   const industries = getIndustries($);
+  const requirements = '';
+  const cefConnections = '';
   const parsed = {
-    companyName, jobTitle, jobType, pay, location, postedDate, industries, jobUrl
+    companyName, jobTitle, jobType, pay, location, postedDate, industries, jobUrl, requirements, cefConnections
   }
   return parsed;
 }
@@ -59,15 +61,15 @@ function getCompanyName($){
 
 function getType($){
   //todo: write best-guess for full time or part time
-  return 'Unknown';
+  return '';
 }
 
 function getPay($){
-  return 'Unknown'
+  return '';
 }
 
 function getLocation($){
-  return 'Unknown'
+  return '';
 }
 
 function getPostedDate($){
@@ -82,11 +84,11 @@ function getPostedDate($){
   let date = moment();
   //if units are days months, moment subtract num units
   if (units !== 'hours') date = moment().subtract(parseInt(num), units);
-  return date.format('MM-DD-YYYY');
+  return date.format('X');
 }
 
 function getIndustries($){
-  return 'Unknown;'
+  return '';
 }
 
 module.exports = { parseIndeedHTML };
