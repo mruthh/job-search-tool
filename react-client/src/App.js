@@ -22,6 +22,9 @@ class App extends Component {
     this.onNumResultsChange = this.onNumResultsChange.bind(this);
     this.handleEditJob = this.handleEditJob.bind(this);
     this.handlePageNavigation = this.handlePageNavigation.bind(this);
+    this.handleEditJob = this.handleEditJob.bind(this);
+    this.handleSelectJob = this.handleSelectJob.bind(this);
+    this.handleRemoveJob = this.handleRemoveJob.bind(this);
   }
   fetchJobs() {
     const reqOptions = {
@@ -48,17 +51,20 @@ class App extends Component {
     });
   }
 
+
   parseJob(job) {
-    const formatted = { ...job };
+    const formatted = { ...job, selected: false };
     if (job.postedDate) {
-      formatted.postedDate = moment(job.postedDate).format('DD-MM-YYYY');
+      formatted.postedDate = moment(job.postedDate).format('MM-DD-YYYY');
     }
     return formatted;
   }
   handleEditJob(jobUrl, keyValPair) {
     //takes a jobId and a keyvalpair (e.g. {companyName: 'Harris Teeter'})
     //updates the job with the given id to have the value from the keyvalpair
-    const jobToEdit = this.state.jobs.find(job => job.jobUrl = jobUrl);
+    
+    const jobToEdit = this.state.jobs.find(job => job.jobUrl === jobUrl);
+    
     if (!jobToEdit) {
       console.error(`Unable to edit job with url ${jobUrl}. Job not found.`);
       return;
@@ -77,6 +83,14 @@ class App extends Component {
     });
     this.setState({ jobs: updatedJobs });
   }
+
+  handleRemoveJob(jobUrl){
+    const updatedJobs = this.state.jobs.filter( (job) => {
+      return job.jobUrl !== jobUrl;
+    });
+    this.setState({jobs: updatedJobs});
+  }
+
   handlePageNavigation(isForward) {
     //if we are moving forward, new start index is start index + numResults
     //if we are moving backward, new start index is start index - numResults
@@ -94,6 +108,23 @@ class App extends Component {
     }
   }
 
+  handleSelectJob(jobUrl){
+    const jobToEdit = this.state.jobs.find(job => job.jobUrl === jobUrl);
+    if (!jobToEdit) {
+      console.error(`Unable to select or unselect job with url ${jobUrl}. Job not found.`);
+      return;
+    }
+
+    //toggle job's selected status
+    const updatedJob = {...jobToEdit };
+    updatedJob.selected = !(jobToEdit.selected);
+
+    const updatedJobs = this.state.jobs.map((job) => {
+      return job.jobUrl === jobToEdit.jobUrl ? updatedJob : job;
+    });
+    this.setState({jobs: updatedJobs});
+  }
+
   onNumResultsChange(event) {
     this.setState({ numResults: parseInt(event.target.value) });
   }
@@ -107,7 +138,7 @@ class App extends Component {
       <div key="header">
         <div className="App">
           <header className="App-header">
-            <img src={require('./assets/cef-logo.png')} />
+            <img src={require('./assets/cef-logo.png')} alt="cef-logo" />
             <h3>Job Search Tool</h3>
           </header>
         </div>
@@ -145,6 +176,8 @@ class App extends Component {
           <JobList
             jobs={this.state.jobs}
             handleEditJob={this.handleEditJob}
+            handleSelectJob={this.handleSelectJob}
+            handleRemoveJob={this.handleRemoveJob}
           />
         </div>
       </div>);

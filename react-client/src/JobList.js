@@ -5,7 +5,22 @@ const JobList = (props) => {
 
   const jobItems = props.jobs.map( (job, index) => {
     return (
-        <tr key={index}>
+        <tr key={job.jobUrl} className={job.selected ? 'selected' : ''}>
+          <td>
+            <button 
+              className="btn btn-sm btn-primary"
+              onClick={() => {props.handleSelectJob(job.jobUrl)}}
+              >
+                Select
+              </button>
+              <button 
+              className="btn btn-sm btn-danger"
+              onClick={() => {props.handleRemoveJob(job.jobUrl)}}
+              >
+                Remove
+              </button>
+
+          </td>
           <td><a href={job.jobUrl}>{job.jobTitle}</a></td>
           <JobAttribute
             jobAttr={job.companyName}
@@ -60,6 +75,7 @@ const JobList = (props) => {
       <table className={"table table-bordered table-striped w-100"}>
           <thead>
           <tr>
+            <th></th>
             <th>Title</th>
             <th>Company</th>
             <th>Job Type (FT/PT)</th>
