@@ -3,7 +3,6 @@ import JobList from './JobList';
 import OptionsBar from './OptionsBar';
 import PageNav from './PageNav';
 import request from 'request';
-import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
@@ -53,10 +52,7 @@ class App extends Component {
 
 
   parseJob(job) {
-    const formatted = { ...job, selected: false };
-    if (job.postedDate) {
-      formatted.postedDate = moment(job.postedDate).format('MM-DD-YYYY');
-    }
+    const formatted = { ...job, selected: false, hidden: false };
     return formatted;
   }
   handleEditJob(jobUrl, keyValPair) {
@@ -85,10 +81,22 @@ class App extends Component {
   }
 
   handleRemoveJob(jobUrl){
-    const updatedJobs = this.state.jobs.filter( (job) => {
-      return job.jobUrl !== jobUrl;
-    });
-    this.setState({jobs: updatedJobs});
+    // const updatedJobs = this.state.jobs.filter( (job) => {
+    //   return job.jobUrl !== jobUrl;
+    // });
+    // this.setState({jobs: updatedJobs});
+    const jobs = [...this.state.jobs];
+    const jobToHide = jobs.find(job => job.jobUrl === jobUrl);
+    
+    if (!jobToHide) {
+      console.error(`Unable to edit job with url ${jobUrl}. Job not found.`);
+      return;
+    }
+    //if job was selected, unselect it. set to hidden
+    jobToHide.selected = false;
+    jobToHide.hidden = true;
+
+    this.setState({jobs});
   }
 
   handlePageNavigation(isForward) {

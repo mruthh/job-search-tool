@@ -55,7 +55,7 @@ function parseIndustries($){
 function parsePostedDate($){
   const dateString = $('.posted-date').text().trim().replace('Posted: ', '');
   const date = moment(dateString);
-  return date.format('x');
+  return date.isValid() ? date.format('MM-DD-YY') : dateString;
 }
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();

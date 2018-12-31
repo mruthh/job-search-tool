@@ -84,7 +84,7 @@ function getPostedDate($){
   let date = moment();
   //if units are days months, moment subtract num units
   if (units !== 'hours') date = moment().subtract(parseInt(num), units);
-  return date.format('X');
+  return date.format('MM-DD-YY');
 }
 
 function getIndustries($){
