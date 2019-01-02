@@ -31,7 +31,6 @@ class App extends Component {
     this.setShowModal = this.setShowModal.bind(this);
     this.handleDismissModal = this.handleDismissModal.bind(this);
     this.handleShowModal = this.handleShowModal.bind(this);
-    this.selectedJobs = React.createRef();
   }
   fetchJobs() {
     const reqOptions = {
@@ -151,8 +150,6 @@ class App extends Component {
 
   handleShowModal(){
     this.setState({showModal: true});
-    // this.selectedJobs.current.select();
-    // this.selectedJobs.current.focus();
   }
 
   onNumResultsChange(event) {
@@ -224,6 +221,7 @@ class App extends Component {
           showModal={this.state.showModal}
           jobs={this.state.jobs}
           dismissModal={() => { this.setShowModal(false) }}
+          ref={this.textarea}
         />
       </div>);
 

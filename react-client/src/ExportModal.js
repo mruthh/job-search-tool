@@ -1,35 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const ExportModal = (props) => {
-  if (!props.showModal) return null;
+class ExportModal extends Component {
+  constructor(props) {
+    super(props);
+    this.textarea = React.createRef();
+  }
 
-  const fields = ['jobTitle', 'jobUrl', 'companyName', 'jobType', 'pay', 'location', 'postedDate', 'industries', 'requirements', 'cefConnections'];
+  componentDidUpdate(){
+    if (this.props.showModal) {
+      console.log(this.textarea);
+      this.textarea.current.select();
+      // this.textarea.current.focus();
+    }
+  }
+  render() {
+    if (!this.props.showModal) return null;
 
-  const copyString = props.jobs.reduce((string, job) => {
-    if (!job.selected) return string;
+    const fields = ['jobTitle', 'jobUrl', 'companyName', 'jobType', 'pay', 'location', 'postedDate', 'industries', 'requirements', 'cefConnections'];
 
-    let serialized = '';
-    fields.forEach( (field) => {
-      serialized += job[field];
-      serialized += '\t';
-    });
-    //replace final tab with a newline
-    serialized = serialized.slice(0, -1).replace(/\n/g, ' ') + '\n';
-    return string + serialized;
-  }, '');
+    const copyString = this.props.jobs.reduce((string, job) => {
+      if (!job.selected) return string;
 
-  return (
-    <div className="row w-100">
-    <div className="col-md-12 w-100 p-5">
-    <textarea readOnly
-      className="form-control align-center w-100"
-      rows="25"
-      value={copyString}
-    >
-    </textarea>
-    </div>
-    </div>
-  );
+      let serialized = '';
+      fields.forEach((field) => {
+        serialized += job[field];
+        serialized += '\t';
+      });
+      //replace final tab with a newline
+      serialized = serialized.slice(0, -1).replace(/\n/g, ' ') + '\n';
+      return string + serialized;
+    }, '');
+
+    return (
+      <div className="row w-100">
+        <div className="col-md-12 w-100 p-5">
+          <textarea 
+            ref={this.textarea}
+            className="form-control align-center w-100"
+            rows="25"
+            value={copyString}
+          >
+          </textarea>
+        </div>
+      </div>
+    );
+  }
   // return (
   //   <div className="modal" role="dialog">
   //     <div className="modal-dialog" role="document">
@@ -40,7 +55,7 @@ const ExportModal = (props) => {
   //             className="close" 
   //             data-dismiss="modal" 
   //             aria-label="Close"
-  //             onClick={props.dismissModal}
+  //             onClick={this.props.dismissModal}
   //             >
   //             <span aria-hidden="true">{'\u2715'}</span>
   //           </button>
@@ -52,6 +67,6 @@ const ExportModal = (props) => {
   //     </div>
   //   </div>
   // );
-}
+};
 
 export default ExportModal;
