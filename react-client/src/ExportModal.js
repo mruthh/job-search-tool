@@ -3,15 +3,20 @@ import React, { Component } from 'react';
 class ExportModal extends Component {
   constructor(props) {
     super(props);
-    this.textarea = React.createRef();
+    this.copyText = React.createRef();
   }
 
-  componentDidUpdate(){
+  componentDidMount(){
     if (this.props.showModal) {
-      console.log(this.textarea);
-      this.textarea.current.select();
-      // this.textarea.current.focus();
+
+      this.copyText.current.select();
+      this.copyText.current.focus();
     }
+    
+  }
+
+  doNothing(){
+    //getcher onchange handler here
   }
   render() {
     if (!this.props.showModal) return null;
@@ -34,8 +39,8 @@ class ExportModal extends Component {
     return (
       <div className="row w-100">
         <div className="col-md-12 w-100 p-5">
-          <textarea 
-            ref={this.textarea}
+          <textarea onChange={this.doNothing}
+            ref={this.copyText}
             className="form-control align-center w-100"
             rows="25"
             value={copyString}

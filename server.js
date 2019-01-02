@@ -9,8 +9,6 @@ const _ = require('underscore');
 const queryString = require('querystring');
 const cors = require('cors');
 
-const logger = require('./logger');
-
 require('dotenv').load();
 
 
@@ -24,9 +22,6 @@ if (process.env.DEV) app.use(cors());
 
 app.get('/api/jobs', (req, res) => {
   const params = {...defaultParams, ...req.query};
-  logger.info({defaultParams});
-  logger.info({queryParams: req.query});
-  logger.info({combinedParams: params});
   getJobs(params).then((jobs) => {
     //flatten results into single-level array
     const flattened = _.flatten(jobs);

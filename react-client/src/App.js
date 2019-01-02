@@ -221,7 +221,6 @@ class App extends Component {
           showModal={this.state.showModal}
           jobs={this.state.jobs}
           dismissModal={() => { this.setShowModal(false) }}
-          ref={this.textarea}
         />
       </div>);
 
