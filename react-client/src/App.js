@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import JobList from './JobList';
 import OptionsBar from './OptionsBar';
 import PageNav from './PageNav';
+import CopyBar from './CopyBar';
+import ExportModal from './ExportModal';
+import JobListToCopy from './JobListToCopy';
 import request from 'request';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -16,6 +19,7 @@ class App extends Component {
       numResults: 25,
       startIndex: 0,
       loading: true,
+      showModal: false
     }
     this.fetchJobs = this.fetchJobs.bind(this);
     this.onNumResultsChange = this.onNumResultsChange.bind(this);
@@ -24,6 +28,10 @@ class App extends Component {
     this.handleEditJob = this.handleEditJob.bind(this);
     this.handleSelectJob = this.handleSelectJob.bind(this);
     this.handleRemoveJob = this.handleRemoveJob.bind(this);
+    this.setShowModal = this.setShowModal.bind(this);
+    this.handleDismissModal = this.handleDismissModal.bind(this);
+    this.handleShowModal = this.handleShowModal.bind(this);
+    this.selectedJobs = React.createRef();
   }
   fetchJobs() {
     const reqOptions = {
@@ -133,6 +141,20 @@ class App extends Component {
     this.setState({jobs: updatedJobs});
   }
 
+  setShowModal(showModal){
+    this.setState({showModal})
+  }
+
+  handleDismissModal(){
+    this.setState({showModal: false})
+  }
+
+  handleShowModal(){
+    this.setState({showModal: true});
+    // this.selectedJobs.current.select();
+    // this.selectedJobs.current.focus();
+  }
+
   onNumResultsChange(event) {
     this.setState({ numResults: parseInt(event.target.value) });
   }
@@ -141,7 +163,7 @@ class App extends Component {
   }
 
   render() {
-
+    console.log(this.state.jobs[0]);
     const header = (
       <div key="header">
         <div className="App">
@@ -171,13 +193,19 @@ class App extends Component {
       </div>
     );
 
-    const navAndJobList = (
-      <div key="navAndJobList">
+    const body = (
+      <div key="body">
         <div>
           <PageNav
             startIndex={this.state.startIndex}
             listLength={this.state.jobs.length}
             handlePageNavigation={this.handlePageNavigation}
+          />
+        </div>
+        <div>
+          <CopyBar
+            jobs={this.state.jobs}
+            showModal={this.handleShowModal}
           />
         </div>
         <div>
@@ -190,7 +218,27 @@ class App extends Component {
         </div>
       </div>);
 
-    return this.state.loading ? [header, spinner] : [header, navAndJobList];
+    const modal =
+      (<div key="modal">
+        <ExportModal
+          showModal={this.state.showModal}
+          jobs={this.state.jobs}
+          dismissModal={() => { this.setShowModal(false) }}
+        />
+      </div>);
+
+      const jobListToCopy = (
+        <div key="jobsCopy">
+          <JobListToCopy 
+            jobs={this.state.jobs}
+            handleDismissModal={this.handleDismissModal}
+            ref={this.selectedJobs}
+          />
+        </div>
+      );
+      if (this.state.loading) return [header, spinner];
+      if (this.state.showModal) return [header, modal];
+      return [header, body];
   }
 }
 

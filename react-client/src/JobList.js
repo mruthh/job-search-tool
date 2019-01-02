@@ -12,7 +12,7 @@ const JobList = (props) => {
             className="btn btn-sm btn-danger float-left"
             onClick={() => { props.handleRemoveJob(job.jobUrl) }}
           >
-            X
+            {'\u2715'}
             </button>
 
           <button
