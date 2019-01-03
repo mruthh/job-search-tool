@@ -220,7 +220,7 @@ class App extends Component {
         <ExportModal
           showModal={this.state.showModal}
           jobs={this.state.jobs}
-          dismissModal={() => { this.setShowModal(false) }}
+          dismissModal={this.handleDismissModal}
         />
       </div>);
 

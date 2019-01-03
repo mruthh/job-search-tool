@@ -3,19 +3,25 @@ import React, { Component } from 'react';
 class ExportModal extends Component {
   constructor(props) {
     super(props);
+    this.copyToClipboard = this.copyToClipboard.bind(this);
     this.copyText = React.createRef();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     if (this.props.showModal) {
 
       this.copyText.current.select();
       this.copyText.current.focus();
     }
-    
+
   }
 
-  doNothing(){
+  copyToClipboard() {
+    this.copyText.current.select();
+    document.execCommand('copy');
+  }
+
+  doNothing() {
     //getcher onchange handler here
   }
   render() {
@@ -37,41 +43,37 @@ class ExportModal extends Component {
     }, '');
 
     return (
-      <div className="row w-100">
-        <div className="col-md-12 w-100 p-5">
-          <textarea onChange={this.doNothing}
-            ref={this.copyText}
-            className="form-control align-center w-100"
-            rows="25"
-            value={copyString}
-          >
-          </textarea>
+      <div>
+        <div className="row w-100">
+          <div className="col-md-12">
+          <button
+              className="btn btn-default"
+              onClick={this.props.dismissModal}
+            >
+            Back to Job List
+            </button>
+            <button
+              className="btn btn-info"
+              onClick={this.copyToClipboard}
+            >
+              Copy to Clipboard
+            </button>
+          </div>
+          <div className="row w-100">
+            <div className="col-md-12 w-100 p-5">
+              <textarea readOnly
+                ref={this.copyText}
+                className="form-control align-center w-100"
+                rows="25"
+                value={copyString}
+              >
+              </textarea>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
-  // return (
-  //   <div className="modal" role="dialog">
-  //     <div className="modal-dialog" role="document">
-  //       <div className="modal-content">
-  //         <div className="modal-header">
-  //           <h5 className="modal-title">Modal title</h5>
-  //           <button
-  //             className="close" 
-  //             data-dismiss="modal" 
-  //             aria-label="Close"
-  //             onClick={this.props.dismissModal}
-  //             >
-  //             <span aria-hidden="true">{'\u2715'}</span>
-  //           </button>
-  //         </div>
-  //         <div className="modal-body">
-  //           <p>{copyString}</p>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default ExportModal;
