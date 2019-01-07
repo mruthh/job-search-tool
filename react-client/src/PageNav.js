@@ -11,13 +11,13 @@ const PageNav = (props) => {
     <div className="row">
       <div className="col-md-12 text-center m-3">
         <button 
-          className="btn" 
+          className="btn btn-secondary" 
           disabled={props.startIndex === 0}
           onClick={() => {props.handlePageNavigation(false)}}
           > Prev </button>
         <span className="m-2">Viewing results {startNum} - {endNum}</span>
         <button 
-          className="btn"
+          className="btn btn-secondary"
           onClick={() => {props.handlePageNavigation(true)}}
         > Next </button>
       </div>
