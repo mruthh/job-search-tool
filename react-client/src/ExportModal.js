@@ -49,7 +49,7 @@ class ExportModal extends Component {
         <div className="row w-100">
           <div className="col-md-12 text-center">
           <button
-              className="btn btn-default ml-5 mr-5"
+              className="btn btn-light ml-5 mr-5"
               onClick={this.props.dismissModal}
             >
             Back to Job List

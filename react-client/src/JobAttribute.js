@@ -44,7 +44,7 @@ class JobAttribute extends Component {
           </textarea>
          <p> 
           <button
-            className="btn btn-sm btn-default"
+            className="btn btn-sm btn-light"
             onClick={this.onCancelEdit}
           >
             Cancel
