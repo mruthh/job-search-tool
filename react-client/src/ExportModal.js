@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class ExportModal extends Component {
   constructor(props) {
     super(props);
+    this.state = {copied: false}
     this.copyToClipboard = this.copyToClipboard.bind(this);
     this.copyText = React.createRef();
   }
@@ -19,6 +20,7 @@ class ExportModal extends Component {
   copyToClipboard() {
     this.copyText.current.select();
     document.execCommand('copy');
+    this.setState({copied: true})
   }
 
   doNothing() {
@@ -45,16 +47,17 @@ class ExportModal extends Component {
     return (
       <div>
         <div className="row w-100">
-          <div className="col-md-12">
+          <div className="col-md-12 text-center">
           <button
-              className="btn btn-default"
+              className="btn btn-default ml-5 mr-5"
               onClick={this.props.dismissModal}
             >
             Back to Job List
             </button>
             <button
-              className="btn btn-info"
+              className="btn btn-info ml-5 mr-5"
               onClick={this.copyToClipboard}
+              disabled={this.setState.copied}
             >
               Copy to Clipboard
             </button>
@@ -63,9 +66,9 @@ class ExportModal extends Component {
             <div className="col-md-12 w-100 p-5">
               <textarea readOnly
                 ref={this.copyText}
-                className="form-control align-center w-100"
+                className={this.state.copied ? "form-control align-center text-center w-100" : "form-control align-center w-100"}
                 rows="25"
-                value={copyString}
+                value={this.state.copied ? 'Copied!' : copyString}
               >
               </textarea>
             </div>
