@@ -34,7 +34,7 @@ class App extends Component {
   }
   fetchJobs() {
     const reqOptions = {
-      uri: '/api/jobs',
+      uri: 'api/jobs',
       baseUrl: baseUrl,
       qs: {
         numResults: this.state.numResults,
