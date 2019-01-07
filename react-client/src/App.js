@@ -9,7 +9,7 @@ import request from 'request';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : '';
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : 'https://arcane-brushlands-40960.herokuapp.com';
 
 class App extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class App extends Component {
   }
   fetchJobs() {
     const reqOptions = {
-      uri: 'api/jobs',
+      uri: '/api/jobs',
       baseUrl: baseUrl,
       qs: {
         numResults: this.state.numResults,
