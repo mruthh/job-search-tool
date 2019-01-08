@@ -31,6 +31,7 @@ class App extends Component {
     this.setShowModal = this.setShowModal.bind(this);
     this.handleDismissModal = this.handleDismissModal.bind(this);
     this.handleShowModal = this.handleShowModal.bind(this);
+    this.resetPage = this.resetPage.bind(this);
   }
   fetchJobs() {
     const reqOptions = {
@@ -159,12 +160,22 @@ class App extends Component {
     this.fetchJobs();
   }
 
+  resetPage(){
+    this.setState({
+      jobs: [],
+      numResults: 25,
+      startIndex: 0,
+      loading: true,
+      showModal: false
+    }, this.fetchJobs);
+  }
+
   render() {
     console.log(this.state.jobs[0]);
     const header = (
       <div key="header">
         <div className="App">
-          <header className="App-header">
+          <header className="App-header" onClick={this.resetPage}>
             <img src={require('./assets/cef-logo.png')} alt="cef-logo" />
             <h3>Job Search Tool</h3>
           </header>
