@@ -25,11 +25,11 @@ const JobList = (props) => {
 
         </td>
         <td><a href={job.jobUrl}>{job.jobTitle}</a></td>
+        <td>{job.snag ? 'SnagAJob' : 'Indeed'}</td>
         <JobAttribute
           jobAttr={job.companyName}
           handleEditJob={(value) => { props.handleEditJob(job.jobUrl, { companyName: value }) }}
         />
-
         <JobAttribute
           jobAttr={job.jobType}
           handleEditJob={(value) => { props.handleEditJob(job.jobUrl, { jobType: value }) }}
@@ -73,6 +73,7 @@ const JobList = (props) => {
           <tr>
             <th>________</th>
             <th>Title</th>
+            <th>Source</th>
             <th>Company</th>
             <th>Job Type (FT/PT)</th>
             <th>Pay</th>

@@ -58,9 +58,13 @@ class App extends Component {
     });
   }
 
-
   parseJob(job) {
-    const formatted = { ...job, selected: false, hidden: false };
+    const formatted = { 
+      ...job, 
+      selected: false, 
+      hidden: false,
+      snag: job.jobUrl.includes('snagajob.com'),  
+    };
     return formatted;
   }
   handleEditJob(jobUrl, keyValPair) {
@@ -89,10 +93,7 @@ class App extends Component {
   }
 
   handleRemoveJob(jobUrl){
-    // const updatedJobs = this.state.jobs.filter( (job) => {
-    //   return job.jobUrl !== jobUrl;
-    // });
-    // this.setState({jobs: updatedJobs});
+
     const jobs = [...this.state.jobs];
     const jobToHide = jobs.find(job => job.jobUrl === jobUrl);
     

@@ -6,11 +6,6 @@ const queryString = require('querystring');
 const _ = require('underscore');
 const moment = require('moment');
 
-// function getIndeedJobs() {
-//   return rp(url2)
-//   .then(html => parseIndeedHTML(html))
-//   .catch(e => console.error(e));
-// }
 
 
 function parseIndeedHTML(html){
@@ -60,6 +55,8 @@ function getCompanyName($){
 }
 
 function getType($){
+  // const headerItems = $('.jobsearch-JobMetadataHeader-item').text();
+  // console.log(headerItems);
   //todo: write best-guess for full time or part time
   return '';
 }
