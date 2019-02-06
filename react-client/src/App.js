@@ -3,8 +3,6 @@ import JobList from './JobList';
 import OptionsBar from './OptionsBar';
 import PageNav from './PageNav';
 import CopyBar from './CopyBar';
-import ExportModal from './ExportModal';
-import JobListToCopy from './JobListToCopy';
 import request from 'request';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -19,7 +17,7 @@ class App extends Component {
       numResults: 25,
       startIndex: 0,
       loading: true,
-      showModal: false
+      copied: false
     }
     this.fetchJobs = this.fetchJobs.bind(this);
     this.onNumResultsChange = this.onNumResultsChange.bind(this);
@@ -28,10 +26,8 @@ class App extends Component {
     this.handleEditJob = this.handleEditJob.bind(this);
     this.handleSelectJob = this.handleSelectJob.bind(this);
     this.handleRemoveJob = this.handleRemoveJob.bind(this);
-    this.setShowModal = this.setShowModal.bind(this);
-    this.handleDismissModal = this.handleDismissModal.bind(this);
-    this.handleShowModal = this.handleShowModal.bind(this);
     this.resetPage = this.resetPage.bind(this);
+    this.onCopyToClipboard = this.onCopyToClipboard.bind(this);
   }
   fetchJobs() {
     const reqOptions = {
@@ -44,12 +40,12 @@ class App extends Component {
       json: true,
     };
     console.log(`fetching from ${baseUrl}/api/jobs`);
-    this.setState({ loading: true });
+    this.setState({ loading: true, copied: false });
     request(reqOptions, (err, res, body) => {
       this.setState({ loading: false });
       if (err) console.error(err);
       if (!body || body.length === 0) {
-        console.error('No jobs turned from server');
+        console.error('No jobs returned from server');
         return;
       }
       const jobs = body.map(job => this.parseJob(job));
@@ -142,21 +138,37 @@ class App extends Component {
     this.setState({jobs: updatedJobs});
   }
 
-  setShowModal(showModal){
-    this.setState({showModal})
-  }
-
-  handleDismissModal(){
-    this.setState({showModal: false})
-  }
-
-  handleShowModal(){
-    this.setState({showModal: true});
-  }
-
   onNumResultsChange(event) {
     this.setState({ numResults: parseInt(event.target.value) });
   }
+
+  makeCopyString_HTML(){
+    const fields = ['companyName', 'jobType', 'pay', 'location', 'postedDate', 'industries', 'requirements', 'cefConnections'];
+
+    const rows = this.state.jobs.filter(job => job.selected)
+      .map((job) => {
+      let row = `<tr><td><a href=${job.jobUrl}>${job.jobTitle}</a></td>`;
+      fields.forEach((field) => {
+        row += `<td>${job[field]}</td>`;
+      });
+      row += '<td>';
+      return row;
+    }); 
+    return `<table>${rows}</table>`;
+  }
+
+  onCopyToClipboard() {
+    const copyString = this.makeCopyString_HTML();
+    function setClipboardData(e){
+      e.clipboardData.setData("text/html", copyString);
+      e.preventDefault();
+    }
+    document.addEventListener("copy", setClipboardData);
+    document.execCommand("copy");
+    document.removeEventListener("copy", setClipboardData);
+    this.setState({copied: true});
+  }
+
   componentDidMount() {
     this.fetchJobs();
   }
@@ -167,12 +179,11 @@ class App extends Component {
       numResults: 25,
       startIndex: 0,
       loading: true,
-      showModal: false
+      copied: false,
     }, this.fetchJobs);
   }
 
   render() {
-    console.log(this.state.jobs[0]);
     const header = (
       <div key="header">
         <div className="App">
@@ -214,7 +225,8 @@ class App extends Component {
         <div>
           <CopyBar
             jobs={this.state.jobs}
-            showModal={this.handleShowModal}
+            copyToClipboard={this.onCopyToClipboard}
+            copied={this.state.copied}
           />
         </div>
         <div>
@@ -227,26 +239,7 @@ class App extends Component {
         </div>
       </div>);
 
-    const modal =
-      (<div key="modal">
-        <ExportModal
-          showModal={this.state.showModal}
-          jobs={this.state.jobs}
-          dismissModal={this.handleDismissModal}
-        />
-      </div>);
-
-      const jobListToCopy = (
-        <div key="jobsCopy">
-          <JobListToCopy 
-            jobs={this.state.jobs}
-            handleDismissModal={this.handleDismissModal}
-            ref={this.selectedJobs}
-          />
-        </div>
-      );
       if (this.state.loading) return [header, spinner];
-      if (this.state.showModal) return [header, modal];
       return [header, body];
   }
 }

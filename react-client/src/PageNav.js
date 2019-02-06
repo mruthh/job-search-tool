@@ -14,12 +14,12 @@ const PageNav = (props) => {
           className="btn btn-secondary" 
           disabled={props.startIndex === 0}
           onClick={() => {props.handlePageNavigation(false)}}
-          > Prev </button>
+          > Prev (newer jobs)</button>
         <span className="m-2">Viewing results {startNum} - {endNum}</span>
         <button 
           className="btn btn-secondary"
           onClick={() => {props.handlePageNavigation(true)}}
-        > Next </button>
+        > Next (older jobs)</button>
       </div>
     </div>
   );
