@@ -55,9 +55,27 @@ function getCompanyName($){
 }
 
 function getType($){
-  // const headerItems = $('.jobsearch-JobMetadataHeader-item').text();
-  // console.log(headerItems);
-  //todo: write best-guess for full time or part time
+  //helper to find keywords in ad
+  const hasKey = (keys, text) => {
+    let hasKey = false;
+    for (let key of keys){
+      if (text.match(key)){
+        hasKey = true;
+        break;
+      }
+    }
+    return hasKey;
+  }
+
+  const postingText = $.text().toLowerCase();
+  const ptKeys = [/part-time/, /part time/, /(\0|\W)pt(\0|\W)/, /parttime/];
+  const ftKeys = [/full-time/, /full time/, /(\0|\W)ft(\0|\W)/, /fulltime/];
+  const hasPtKey = hasKey(ptKeys, postingText);
+  const hasFtKey = hasKey(ftKeys, postingText);
+
+  if (hasPtKey && hasFtKey) return 'PT/FT';
+  if (hasPtKey) return 'PT';
+  if (hasFtKey) return 'FT';
   return '';
 }
 

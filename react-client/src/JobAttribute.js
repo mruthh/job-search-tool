@@ -64,8 +64,14 @@ class JobAttribute extends Component {
         </td>
       );
     } else {
+      let experimentalClass = null;
+      if (this.props.isExperimental && this.state.text) {
+        experimentalClass = 'experimental';
+      }
       return (
-        <td onClick={this.onEditStart}>
+        <td 
+        className={experimentalClass}
+        onClick={this.onEditStart}>
           {this.state.text}
         </td>
       );

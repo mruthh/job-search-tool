@@ -25,6 +25,18 @@
 .textarea {
   height: 500
 }
+
+.experimental {
+  color: yellowgreen;
+}
+
+.experimental::before {
+  color: #ca8222;
+  content: "This data was auto-detected and may be inaccurate!";
+  display: block; 
+  font-size: 0.75em; 
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

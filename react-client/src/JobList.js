@@ -31,6 +31,7 @@ const JobList = (props) => {
           handleEditJob={(value) => { props.handleEditJob(job.jobUrl, { companyName: value }) }}
         />
         <JobAttribute
+          isExperimental={!job.snag}
           jobAttr={job.jobType}
           handleEditJob={(value) => { props.handleEditJob(job.jobUrl, { jobType: value }) }}
         />
