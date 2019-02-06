@@ -67,7 +67,10 @@ function getType($){
     return hasKey;
   }
 
-  const postingText = $.text().toLowerCase();
+  //UNC has a header reading 'Full-time/Part-time' that gets in the way. Remove it.
+  const UNCHeaderText = 'Full-time/Part-time';
+  const postingText = $('.jobsearch-JobComponent-description').text().replace(UNCHeaderText, '').toLowerCase();
+
   const ptKeys = [/part-time/, /part time/, /(\0|\W)pt(\0|\W)/, /parttime/];
   const ftKeys = [/full-time/, /full time/, /(\0|\W)ft(\0|\W)/, /fulltime/];
   const hasPtKey = hasKey(ptKeys, postingText);
