@@ -20,7 +20,7 @@ class ExportModal extends Component {
 
   copyToClipboard() {
     // this.copyText.current.select();
-    const copyString = this.makeCopyString_plainText();
+    const copyString = this.makeCopyString_HTML();
     // const clipEvent = new ClipboardEvent('copy', copyString);
     // // document.execCommand('copy');
     // clipEvent.copy();
@@ -39,6 +39,20 @@ class ExportModal extends Component {
     //getcher onchange handler here
   }
 
+  makeCopyString_HTML(){
+    const fields = ['companyName', 'jobType', 'pay', 'location', 'postedDate', 'industries', 'requirements', 'cefConnections'];
+
+    const rows = this.props.jobs.filter(job => job.selected)
+      .map((job) => {
+      let row = `<td><a href=${job.jobUrl}>${job.jobTitle}</a></td>`;
+      fields.forEach((field) => {
+        row += `<td>${job[field]}</td>`;
+      });
+      return row;
+    });
+    
+    return `<table>${rows}</table>`;
+  }
   makeCopyString_richText(){
     const fields = ['companyName', 'jobType', 'pay', 'location', 'postedDate', 'industries', 'requirements', 'cefConnections'];
 
