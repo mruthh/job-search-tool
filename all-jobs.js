@@ -1,13 +1,9 @@
 const rp = require('request-promise');
-const cheerio = require('cheerio');
 const snagUrl = 'https://www.snagajob.com/job-search/s-north+carolina/l-chapel+hill/w-27514?sort=date&radius=10';
 const indeedUrl = 'https://www.indeed.com/jobs?l=Chapel+Hill,+NC&radius=10&explvl=entry_level&sort=date';
-const url = require('url');
-const queryString = require('querystring');
 const _ = require('underscore');
 const { parseSnagHTML } = require('./snag');
 const { parseIndeedHTML } = require('./indeed');
-const logger = require('./logger');
 
 /*
  * Relevant params: 

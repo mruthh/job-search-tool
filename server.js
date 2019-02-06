@@ -1,7 +1,5 @@
 const express = require('express');
 const app = express();
-const { getSnagJobs } = require('./snag');
-const { getIndeedJobs } = require('./indeed');
 const { getJobs } = require('./all-jobs');
 const fs = require('fs');
 const sampleJobs = require('./sample-jobs.json');
