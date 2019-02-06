@@ -80,6 +80,14 @@ function getType($){
 }
 
 function getPay($){
+  //if there's a span with a dollar sign, it probably contains pay info
+  const moneySpans = $('span').filter( (i, el) => {
+    return $(el).text().includes('$');
+  }).map( (i, el) => {
+    return $(el).text();
+  }).toArray();
+
+  if (moneySpans.length) return moneySpans.join('\n');
   return '';
 }
 
