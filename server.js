@@ -7,8 +7,6 @@ const _ = require('underscore');
 const queryString = require('querystring');
 const cors = require('cors');
 
-require('dotenv').load();
-
 
 
 const defaultParams = {
@@ -16,7 +14,7 @@ const defaultParams = {
   startIndex: 0,
 };
 
-if (process.env.DEV) app.use(cors());
+if (process.env.NODE_ENV === 'development') app.use(cors());
 
 app.get('/api/jobs', (req, res) => {
   const params = {...defaultParams, ...req.query};
