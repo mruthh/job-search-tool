@@ -6,6 +6,12 @@ const queryString = require('querystring');
 const _ = require('underscore');
 const moment = require('moment');
 
+function buildSnagUrl(params){
+  let cityString;
+  if (params.city === 'chapelhill') cityString = 'l-chapel+hill';
+  if (params.city === 'durham') cityString = 'l-durham';
+  return `https://www.snagajob.com/job-search/s-north+carolina/${cityString}?radius=${params.radius}`;
+}
 function parseSnagHTML(html){
   const $ = cheerio.load(html);
   const jobs = $('article');
@@ -69,4 +75,4 @@ function parseLocation($){
   }).join('\n');
 }
 
-module.exports = { parseSnagHTML };
+module.exports = { parseSnagHTML, buildSnagUrl };
