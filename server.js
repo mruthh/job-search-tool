@@ -6,7 +6,7 @@ const sampleJobs = require('./sample-jobs.json');
 const _ = require('underscore');
 const queryString = require('querystring');
 const cors = require('cors');
-
+require('dotenv').config();
 
 
 const defaultParams = {
@@ -17,7 +17,7 @@ const defaultParams = {
 
 };
 
-if (process.env.NODE_ENV === 'development') app.use(cors());
+if (process.env.DEV) app.use(cors());
 
 app.get('/api/jobs', (req, res) => {
   if (req.query.hasOwnProperty('city')) {
