@@ -26,6 +26,10 @@
   height: 500
 }
 
+.options-bar {
+  border-bottom: 1px solid #dee2e6;
+}
+
 .experimental {
   color: yellowgreen;
 }

@@ -9,18 +9,22 @@ import './App.css';
 
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : 'https://arcane-brushlands-40960.herokuapp.com';
 
+const defaultState = {
+  jobs: [],
+  city: 'chapelhill',
+  zip: 27701,
+  radius: 5,
+  numResults: 25,
+  startIndex: 0,
+  loading: true,
+  copied: false
+};
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      jobs: [],
-      numResults: 25,
-      startIndex: 0,
-      loading: true,
-      copied: false
-    }
+    this.state = defaultState;
     this.fetchJobs = this.fetchJobs.bind(this);
-    this.onNumResultsChange = this.onNumResultsChange.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
     this.handleEditJob = this.handleEditJob.bind(this);
     this.handlePageNavigation = this.handlePageNavigation.bind(this);
     this.handleEditJob = this.handleEditJob.bind(this);
@@ -36,6 +40,7 @@ class App extends Component {
       qs: {
         numResults: this.state.numResults,
         startIndex: this.state.startIndex,
+        city: this.state.city === 'chapelhill' ? 'chapelhill' : this.state.zip
       },
       json: true,
     };
@@ -142,6 +147,12 @@ class App extends Component {
     this.setState({ numResults: parseInt(event.target.value) });
   }
 
+  onInputChange(event, property){
+    let value = event.target.value;
+    if (property === 'numResults') value = parseInt(value);
+    this.setState({[property]: value});
+  }
+
   makeCopyString_HTML(){
     const fields = ['companyName', 'jobType', 'pay', 'location', 'postedDate', 'industries', 'requirements', 'cefConnections'];
 
@@ -174,13 +185,7 @@ class App extends Component {
   }
 
   resetPage(){
-    this.setState({
-      jobs: [],
-      numResults: 25,
-      startIndex: 0,
-      loading: true,
-      copied: false,
-    }, this.fetchJobs);
+    this.setState(defaultState, this.fetchJobs);
   }
 
   render() {
@@ -194,8 +199,10 @@ class App extends Component {
         </div>
         <div>
           <OptionsBar
+            city={this.state.city}
+            radius={this.state.radius}
             numResults={this.state.numResults}
-            onNumResultsChange={this.onNumResultsChange}
+            onInputChange={this.onInputChange}
             fetchJobs={this.fetchJobs}
           />
         </div>
@@ -235,6 +242,13 @@ class App extends Component {
             handleEditJob={this.handleEditJob}
             handleSelectJob={this.handleSelectJob}
             handleRemoveJob={this.handleRemoveJob}
+          />
+        </div>
+        <div>
+          <PageNav
+            startIndex={this.state.startIndex}
+            listLength={this.state.jobs.length}
+            handlePageNavigation={this.handlePageNavigation}
           />
         </div>
       </div>);
