@@ -9,8 +9,8 @@ const moment = require('moment');
 function buildSnagUrl(params){
   let cityString;
   if (params.city === 'chapelhill') cityString = 'l-chapel+hill';
-  if (params.city === 'durham') cityString = 'l-durham';
-  return `https://www.snagajob.com/job-search/s-north+carolina/${cityString}?radius=${params.radius}`;
+  else cityString = `w-${params.city}`;
+  return `https://www.snagajob.com/job-search/s-north+carolina/${cityString}?radius=${params.radius}&sort=date`;
 }
 function parseSnagHTML(html){
   const $ = cheerio.load(html);

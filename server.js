@@ -20,11 +20,7 @@ const defaultParams = {
 if (process.env.DEV) app.use(cors());
 
 app.get('/api/jobs', (req, res) => {
-  if (req.query.hasOwnProperty('city')) {
-    if (req.query.city !== 'chapelhill' && req.query.city !== 'durham') {
-      return res.send(400, 'City can only be set to chapelhill or durham.');
-    }
-  }
+
   const params = {...defaultParams, ...req.query};
   getJobs(params).then((jobs) => {
     //flatten results into single-level array

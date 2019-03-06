@@ -9,7 +9,7 @@ const moment = require('moment');
 function buildIndeedUrl(params){
   let cityString;
   if (params.city === 'chapelhill') cityString = 'Chapel+Hill,+NC';
-  if (params.city === 'durham') cityString = 'Durham%2C+NC';
+  else cityString = params.city;
   return `https://www.indeed.com/jobs?l=${cityString}&radius=${params.radius}&explvl=entry_level&sort=date'`
 }
 
