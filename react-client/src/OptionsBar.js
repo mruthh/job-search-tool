@@ -7,8 +7,10 @@ const OptionsBar = (props) => {
     <p className="small">
       Select a Durham zip code
   <select className="form-control form-control-sm custom-select d-inline size-1 w-25 m-2"
-        value={props.city}
-        onChange={(e) => { props.onInputChange(e, 'city') }}>
+        value={props.zip}
+        min="0"
+        max="50"
+        onChange={(e) => { props.onInputChange(e, 'zip') }}>
         <option value="27701">27701</option>
         <option value="27702">27702</option>
         <option value="27703">27703</option>
@@ -62,9 +64,13 @@ const OptionsBar = (props) => {
           </p>
       </div>
       <div className="col-md-4 text-left">
+        {props.validateParams().errors.map( (message) => {
+          return <p className="text-danger small">{message}</p>
+        })}
         <button
           className="btn btn-lg btn-primary m-2"
           onClick={props.fetchJobs}
+          disabled={!(props.validateParams().isValid)}
         >
           Fetch Jobs
         </button>

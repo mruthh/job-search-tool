@@ -32,6 +32,21 @@ class App extends Component {
     this.handleRemoveJob = this.handleRemoveJob.bind(this);
     this.resetPage = this.resetPage.bind(this);
     this.onCopyToClipboard = this.onCopyToClipboard.bind(this);
+    this.validateParams = this.validateParams.bind(this);
+  }
+  validateParams(){
+    let isValid = false;
+    let errors = [];
+    const numVal = parseInt(this.state.radius);
+    if (Number.isNaN(numVal)) {
+      errors.push(`Distance from location must be a numeric value`);
+      return {isValid, errors};
+    }
+    if (numVal < 0 || numVal > 50) {
+      errors.push(`Distance from location must be between 0 and 50`);
+      return {isValid, errors};
+    }
+    return {isValid: true, errors};
   }
   fetchJobs() {
     const reqOptions = {
@@ -150,6 +165,7 @@ class App extends Component {
   onInputChange(event, property){
     let value = event.target.value;
     if (property === 'numResults') value = parseInt(value);
+    if (property === 'radius') value = parseInt(value);
     this.setState({[property]: value});
   }
 
@@ -203,6 +219,7 @@ class App extends Component {
             radius={this.state.radius}
             numResults={this.state.numResults}
             onInputChange={this.onInputChange}
+            validateParams={this.validateParams}
             fetchJobs={this.fetchJobs}
           />
         </div>
