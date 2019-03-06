@@ -6,7 +6,12 @@ const queryString = require('querystring');
 const _ = require('underscore');
 const moment = require('moment');
 
-
+function buildIndeedUrl(params){
+  let cityString;
+  if (params.city === 'chapelhill') cityString = 'Chapel+Hill,+NC';
+  if (params.city === 'durham') cityString = 'Durham%2C+NC';
+  return `https://www.indeed.com/jobs?l=${cityString}&radius=${params.radius}&explvl=entry_level&sort=date'`
+}
 
 function parseIndeedHTML(html){
   const $ = cheerio.load(html);
@@ -117,4 +122,4 @@ function getIndustries($){
   return '';
 }
 
-module.exports = { parseIndeedHTML };
+module.exports = { parseIndeedHTML, buildIndeedUrl };

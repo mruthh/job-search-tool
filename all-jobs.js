@@ -3,7 +3,7 @@ const snagUrl = 'https://www.snagajob.com/job-search/s-north+carolina/l-chapel+h
 const indeedUrl = 'https://www.indeed.com/jobs?l=Chapel+Hill,+NC&radius=10&explvl=entry_level&sort=date';
 const _ = require('underscore');
 const { parseSnagHTML, buildSnagUrl } = require('./snag');
-const { parseIndeedHTML } = require('./indeed');
+const { parseIndeedHTML, buildIndeedUrl } = require('./indeed');
 
 /*
  * Relevant params: 
@@ -30,7 +30,7 @@ function getJobs(params) {
   
   const indeed = {
     multiplier: 10,
-    baseUrl: indeedUrl,
+    baseUrl: buildIndeedUrl(params),
     pageParser: parseIndeedHTML,
   };
   
