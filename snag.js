@@ -10,16 +10,20 @@ function buildSnagUrl(params){
   let cityString;
   if (params.city === 'chapelhill') cityString = 'l-chapel+hill';
   else cityString = `w-${params.city}`;
-  return `https://www.snagajob.com/job-search/s-north+carolina/${cityString}?radius=${params.radius}&sort=date`;
+  const url = `https://www.snagajob.com/job-search/s-north+carolina/${cityString}?radius=${params.radius}&sort=date`;
+  console.log(`Getting jobs from ${url}`);
+  return url;
 }
 function parseSnagHTML(html){
   const $ = cheerio.load(html);
-  const jobs = $('article');
+  const jobs = $('job-overview');
   console.log(`There are ${jobs.length} jobs listed`)
   const parsedJobs = [];
   jobs.each( (i, job) => {
-      const uri = $(job).find('.result-title a').attr('href');
-      const jobUrl = makeUrl(uri);
+      // const uri = $(job).find('.result-title a').attr('href'); <-- before redesign
+      const urlElem = $(job).find('[itemprop="url"]');
+      const jobUrl = urlElem.attr('content');
+      // const jobUrl = makeUrl(uri);
       const promise = rp(jobUrl)
         .then(html => parseSnagJob(html, jobUrl))
         .catch(e => console.log(e));
@@ -31,9 +35,9 @@ function parseSnagHTML(html){
 function parseSnagJob(html, jobUrl){
   console.log('parsing a job')
   const $ = cheerio.load(html);
-  const companyName = parseDt($, 'Company');
-  const jobTitle = parseDt($, 'Job Title')
-  const jobType = $('dt:contains("Job Type")').next().text().trim();
+  const companyName = getCompanyName($);
+  const jobTitle = getJobTitle($);
+  const jobType = getJobType($);
   const pay = $('dt:contains("Wages")').next().text().trim();
   const location = parseLocation($);
   const postedDate = parsePostedDate($);
@@ -65,6 +69,25 @@ function parsePostedDate($){
 }
 function parseDt($, label){
   return $(`dt:contains("${label}")`).next().text().trim();
+}
+
+function getCompanyName($){
+  return $('.job-company').text();
+}
+
+function getJobTitle($){
+  return $('.job-position').text();
+}
+
+function getJobType($){
+  //as of March 2019, full-time/part-time status is listed next to clock icon
+  const rawText = $('.icon-time').next().getText();
+  if (rawText.includes('Full-time') && rawText.includes('Part-time')) {
+    return 'FT/PT';
+  }
+  if (rawText.includes('Full-time')) return 'FT';
+  if (rawText.includes('Part-time')) return 'PT';
+  return '';
 }
 
 function parseLocation($){
