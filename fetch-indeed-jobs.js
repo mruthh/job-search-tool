@@ -13,7 +13,7 @@ function fetchIndeedJobs(params){
       url: buildIndeedUrl(params),
       qs: {
         limit: 50, 
-        start: (params.startIndex) * 50,
+        start: (params.startIndex + i) * 50,
       }
     })
     .then(html => parseIndeedHTML(html))
