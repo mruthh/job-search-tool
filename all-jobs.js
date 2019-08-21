@@ -40,9 +40,6 @@ function getJobs(params) {
     pageParser: parseSnagHTML,
   };
 
-  //for each 25 results, add one page of results from each site
-  const numPages = Math.ceil(params.numResults/25);
-  
   //every time the req start index goes up by 25, the starting page should go up by 1
   const startNum = Math.ceil(params.startIndex/25);
 

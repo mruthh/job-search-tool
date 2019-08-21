@@ -11,7 +11,6 @@ require('dotenv').config();
 
 
 const defaultParams = {
-  numResults: 25,
   startIndex: 0,
   city: 'chapelhill',
   radius: 10
