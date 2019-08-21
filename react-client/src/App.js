@@ -123,11 +123,10 @@ class App extends Component {
   }
 
   handlePageNavigation(isForward) {
-    //new start index is plus or minus 2 (the # of pages to fetch from indeed)
 
     const newStartIndex = isForward
-      ? parseInt(this.state.startIndex) + 2
-      : parseInt(this.state.startIndex) - 2;
+      ? parseInt(this.state.startIndex) + 1
+      : parseInt(this.state.startIndex) - 1;
 
     //make sure we don't get a startIndex below 0
     if (newStartIndex >= 0) {
