@@ -14,7 +14,6 @@ const defaultState = {
   city: 'chapelhill',
   zip: 27701,
   radius: 5,
-  numResults: 25,
   startIndex: 0,
   loading: true,
   copied: false
@@ -53,7 +52,6 @@ class App extends Component {
       uri: '/api/jobs',
       baseUrl: baseUrl,
       qs: {
-        numResults: this.state.numResults,
         startIndex: this.state.startIndex,
         city: this.state.city === 'chapelhill' ? 'chapelhill' : this.state.zip
       },
@@ -125,12 +123,10 @@ class App extends Component {
   }
 
   handlePageNavigation(isForward) {
-    //if we are moving forward, new start index is start index + numResults
-    //if we are moving backward, new start index is start index - numResults
 
     const newStartIndex = isForward
-      ? parseInt(this.state.startIndex) + parseInt(this.state.numResults)
-      : parseInt(this.state.startIndex) - parseInt(this.state.numResults);
+      ? parseInt(this.state.startIndex) + 1
+      : parseInt(this.state.startIndex) - 1;
 
     //make sure we don't get a startIndex below 0
     if (newStartIndex >= 0) {
@@ -158,13 +154,8 @@ class App extends Component {
     this.setState({jobs: updatedJobs});
   }
 
-  onNumResultsChange(event) {
-    this.setState({ numResults: parseInt(event.target.value) });
-  }
-
   onInputChange(event, property){
     let value = event.target.value;
-    if (property === 'numResults') value = parseInt(value);
     if (property === 'radius') value = parseInt(value);
     this.setState({[property]: value});
   }
@@ -217,7 +208,6 @@ class App extends Component {
           <OptionsBar
             city={this.state.city}
             radius={this.state.radius}
-            numResults={this.state.numResults}
             onInputChange={this.onInputChange}
             validateParams={this.validateParams}
             fetchJobs={this.fetchJobs}

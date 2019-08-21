@@ -24,7 +24,7 @@ const JobList = (props) => {
           </button>
 
         </td>
-        <td><a href={job.jobUrl}>{job.jobTitle}</a></td>
+        <td><a href={job.jobUrl}>{job.jobTitle ? job.jobTitle : job.jobUrl}</a></td>
         <td>{job.snag ? 'SnagAJob' : 'Indeed'}</td>
         <JobAttribute
           jobAttr={job.companyName}

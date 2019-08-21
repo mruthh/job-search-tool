@@ -1,9 +1,9 @@
 import React from 'react';
 
 const PageNav = (props) => {
-  //1-based numbers e.g. viewing results 1-30
-  const startNum = parseInt(props.startIndex) + 1;
-  const endNum = parseInt(props.startIndex) + parseInt(props.listLength);
+  // this should say "Viewing page (e.g. 1) of results"
+  // (listLength results found)
+  const pageNum = props.startIndex + 1;
 
   if (props.listLength === 0) return null;
 
@@ -15,7 +15,10 @@ const PageNav = (props) => {
           disabled={props.startIndex === 0}
           onClick={() => {props.handlePageNavigation(false)}}
           > Prev (newer jobs)</button>
-        <span className="m-2">Viewing results {startNum} - {endNum}</span>
+        <span className="m-2">
+          Viewing page {pageNum} of results.</span>
+          <span>{props.listLength} jobs found.</span>
+        
         <button 
           className="btn btn-secondary"
           onClick={() => {props.handlePageNavigation(true)}}
