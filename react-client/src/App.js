@@ -14,7 +14,6 @@ const defaultState = {
   city: 'chapelhill',
   zip: 27701,
   radius: 5,
-  numResults: 25,
   startIndex: 0,
   loading: true,
   copied: false
@@ -53,7 +52,6 @@ class App extends Component {
       uri: '/api/jobs',
       baseUrl: baseUrl,
       qs: {
-        numResults: this.state.numResults,
         startIndex: this.state.startIndex,
         city: this.state.city === 'chapelhill' ? 'chapelhill' : this.state.zip
       },

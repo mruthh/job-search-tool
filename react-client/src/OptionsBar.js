@@ -49,20 +49,6 @@ const OptionsBar = (props) => {
         </p>
       {props.city !== 'chapelhill' ? zipcodeInput : null}
       </div>
-      <div className="col-md-4 text-center">
-        <p>
-          Fetch
-          <select className="form-control custom-select size-1 w-25 m-2"
-            value={props.numResults}
-            onChange={(e) => { props.onInputChange(e, 'numResults') }}>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="75">75</option>
-            <option value="100">100</option>
-          </select>
-          results at a time
-          </p>
-      </div>
       <div className="col-md-4 text-left">
         {props.validateParams().errors.map( (message) => {
           return <p className="text-danger small">{message}</p>
