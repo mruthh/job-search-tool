@@ -155,13 +155,8 @@ class App extends Component {
     this.setState({jobs: updatedJobs});
   }
 
-  onNumResultsChange(event) {
-    this.setState({ numResults: parseInt(event.target.value) });
-  }
-
   onInputChange(event, property){
     let value = event.target.value;
-    if (property === 'numResults') value = parseInt(value);
     if (property === 'radius') value = parseInt(value);
     this.setState({[property]: value});
   }
@@ -214,7 +209,6 @@ class App extends Component {
           <OptionsBar
             city={this.state.city}
             radius={this.state.radius}
-            numResults={this.state.numResults}
             onInputChange={this.onInputChange}
             validateParams={this.validateParams}
             fetchJobs={this.fetchJobs}
