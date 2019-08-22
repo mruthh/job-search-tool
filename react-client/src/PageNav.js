@@ -16,8 +16,8 @@ const PageNav = (props) => {
           onClick={() => {props.handlePageNavigation(false)}}
           > Prev (newer jobs)</button>
         <span className="m-2">
-          Viewing page {pageNum} of results.</span>
-          <span>{props.listLength} jobs found.</span>
+          Viewing page {pageNum} of results. {props.listLength} jobs found
+        </span>
         
         <button 
           className="btn btn-secondary"
