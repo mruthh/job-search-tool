@@ -1,10 +1,6 @@
 const express = require('express');
 const app = express();
-const { getJobs } = require('./all-jobs');
-const fs = require('fs');
-const sampleJobs = require('./sample-jobs.json');
 const _ = require('underscore');
-const queryString = require('querystring');
 const cors = require('cors');
 const { fetchIndeedJobs } = require('./fetch-indeed-jobs');
 require('dotenv').config();
